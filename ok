@@ -1,0 +1,267 @@
+_G.distance = 300
+_G.tp = 1
+local mt = getrawmetatable(game);
+setreadonly(mt,false)
+local namecall = mt.__namecall
+
+mt.__namecall = newcclosure(function(self, ...)
+    local Method = getnamecallmethod()
+    local Args = {...}
+    
+    if Method == 'InvokeServer' and self.Name == 'Morph' then
+ _G.crack = Args[1]
+ _G.crack1 = Args[2]
+ _G.crack3 = Args[4]
+    end
+    
+    return namecall(self, ...) 
+end)
+
+
+local vu = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+   vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+   wait(1)
+   vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+
+local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))() 
+ local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))() 
+
+ wait(1) 
+ Notification:Notify( 
+     {Title = "小达", Description = "正在加载"}, 
+     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "image"}, 
+     {Image = "http://www.roblox.com/asset/?id=4483345998", ImageColor = Color3.fromRGB(255, 84, 84)} 
+ ) 
+ wait(2) 
+ Notification:Notify( 
+     {Title = "小达", Description = "准备好了！"}, 
+     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "image"}, 
+     {Image = "http://www.roblox.com/asset/?id=4483345998", ImageColor = Color3.fromRGB(255, 84, 84)} 
+ )
+ wait(0.2)
+ Notification:Notify( 
+     {Title = "小达", Description = "支持作者小达"}, 
+     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 10, Type = "image"}, 
+     {Image = "http://www.roblox.com/asset/?id=4483345998", ImageColor = Color3.fromRGB(255, 84, 84)} 
+ )
+ wait(0.4)
+ 
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+local UICorner = Instance.new("UICorner")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+Frame.BackgroundTransparency = 0.500
+Frame.Position = UDim2.new(0.858712733, 0, 0.0237762257, 0)
+Frame.Size = UDim2.new(0.129513338, 0, 0.227972031, 0)
+
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BackgroundTransparency = 1.000
+TextButton.Size = UDim2.new(1, 0, 1, 0)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "关闭"
+TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.TextScaled = true
+TextButton.TextSize = 50.000
+TextButton.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextStrokeTransparency = 0.000
+TextButton.TextWrapped = true
+TextButton.MouseButton1Down:Connect(function()
+    if TextButton.Text == "关闭" then
+        TextButton.Text = "打开"
+    else
+        TextButton.Text = "关闭"
+    end
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E" , false , game)
+end) -- replace "E" with your keybind
+
+UITextSizeConstraint.Parent = TextButton
+UITextSizeConstraint.MaxTextSize = 30
+
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/133ufudhdu/YuanBanVapeLib/main/k"))()
+
+local win = lib:Window("怪兽宇宙",Color3.fromRGB(0, 255, 0), Enum.KeyCode.E) -- your own keybind 
+
+local tab = win:Tab("主要功能")
+
+tab:Label("自动使用技能", function()
+end)
+
+tab:Textbox("技能名称",true, function(object, focus)
+    if focus then
+            _G.skillname = tostring(object.Text)
+for i,v in pairs(getgc(true)) do
+    if type(v) == "table" and rawget(v,"ID") ~= nil then
+if type(v.ID) ~= "number" then
+local test = v.ID:split("#")
+if test[1] == _G.skillname then
+    print(v.ID)
+ _G.skillname = v.ID
+    end
+    end
+end
+end
+        end
+    end)
+    
+tab:Label("攻击范围", function()
+end)
+
+tab:Textbox("范围数值",true, function(object, focus)
+    if focus then
+   
+        _G.distance = tonumber(object.Text)
+    end
+end)
+
+tab:Toggle("自动使用所有能力", false, function(state)
+    _G.abilitiestouse = (state and true or false)
+    while _G.abilitiestouse do
+        wait(0.5)
+        pcall(function()
+    for i,v in pairs(getgc(true)) do
+    if type(v) == "table" and rawget(v,"globalCooldown") ~= nil then
+task.wait()
+for a,b in pairs(v) do
+if a == "ID" then
+task.wait(0.1)
+game.Players.LocalPlayer.Character.ClientRunner.KaijuControlEvent:FireServer(b)
+    end
+    end
+end
+end
+end)
+end
+end)
+
+tab:Toggle("自动使用所有攻击能力", false, function(state)
+    _G.abilitiestouse2 = (state and true or false)
+    while _G.abilitiestouse2 do
+        wait(0.5)
+        pcall(function()
+			for i,v in pairs(getgc(true)) do
+				if type(v) == "table" and rawget(v,"globalCooldown") ~= nil then
+			task.wait()
+			if v.Cooldown < 6.1 then
+				wait(0.5)
+			game.Players.LocalPlayer.Character.ClientRunner.KaijuControlEvent:FireServer(v.ID)
+			end
+			end
+			end			
+end)
+end
+end)
+
+tab:Toggle("自动传送", false, function(state)
+    _G.test = (state and true or false)
+while _G.test do
+wait()
+pcall(function()
+_G.rat = nil
+		local distance = math.huge
+		for i,v in pairs(game:GetService("Workspace").Map:GetDescendants()) do
+			if v.Name == "BoundingBox" and _G.test == true   and v.Parent:FindFirstChild("bValues") and v.Parent.bValues:FindFirstChild("Health") and v.Parent.bValues:FindFirstChild("Health").Value > v.Parent.bValues:FindFirstChild("MaxHealth").Value/2  and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position-v.Position).Magnitude < _G.distance then
+		local Dist = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
+		if Dist < distance then
+		distance = Dist
+		_G.rat = v
+		end
+        task.wait()
+			end
+	end
+repeat wait()
+		local location = _G.rat.Position
+        local LocalPlayer = game:GetService("Players").LocalPlayer
+        local PlayerModule = require(LocalPlayer.PlayerScripts.PlayerModule)
+        local ClickToMoveController = PlayerModule:GetClickToMoveController()
+        ClickToMoveController:SetShowPath(false)
+        ClickToMoveController:SetUserJumpEnabled(false)
+        ClickToMoveController:MoveTo(location,true)
+until game.Players.LocalPlayer:DistanceFromCharacter(_G.rat.Position) < 60 or _G.test == false
+    game.Players.LocalPlayer.Character.ClientRunner.KaijuControlEvent:FireServer(_G.skillname)
+end)
+end
+end)
+
+tab:Toggle("自动重生", false, function(state)
+    _G.autospawn = (state and true or false)
+    while _G.autospawn do
+        wait()
+        pcall(function()
+  if _G.crack ~= nil and game:GetService("Players").LocalPlayer.PlayerGui.newUI.PlayingUI.Visible == false  then
+    game:GetService("ReplicatedStorage").Packages.Knit.Services.KaijuService.RF.Morph:InvokeServer(_G.crack, _G.crack1,nil,_G.crack3)
+    wait(5)
+for i,v in pairs(getgc(true)) do
+    if type(v) == "table" and rawget(v,"ID") ~= nil then
+if type(v.ID) ~= "number" then
+local test = v.ID:split("#")
+local test2 = _G.skillname:split("#")
+if test[1] == test2[1] then
+ _G.skillname = v.ID
+    end
+    end
+end
+end
+    wait(10)
+    elseif _G.crack2 ~= nil and game:GetService("Players").LocalPlayer.PlayerGui.newUI.PlayingUI.Visible == false then
+    local test = math.random(1,4)
+    for i,v in pairs(game:GetService("ReplicatedStorage").ReplicatedAssets.SpawnLocations:GetChildren()) do
+     if i == test and game.Players.LocalPlayer.Character.Parent == nil then
+    game:GetService("ReplicatedStorage").Packages.Knit.Services.KaijuService.RF.Morph:InvokeServer(_G.crack2,v,nil,_G.crack3)
+    wait(5)
+for i,v in pairs(getgc(true)) do
+    if type(v) == "table" and rawget(v,"ID") ~= nil then
+if type(v.ID) ~= "number" then
+local test = v.ID:split("#")
+local test2 = _G.skillname:split("#")
+if test[1] == test2[1] then
+ _G.skillname = v.ID
+    end
+    end
+end
+end
+             end
+    end
+    wait(1)
+    end
+end)
+end
+end)
+
+tab:Toggle("自动隐藏用户", false, function(state)
+    _G.nametag = (state and true or false)
+    while _G.nametag do
+    wait()
+    pcall(function()
+    if game.Players.LocalPlayer.Character.Head:FindFirstChild("Nametag") then
+    game.Players.LocalPlayer.Character.Head.Nametag:Destroy()
+    wait()
+    end
+end)
+end
+end)
+example:AddButton("Kill Yourself",function()
+game.Players.LocalPlayer.Character:BreakJoints()
+end)
+spawn(function()
+    while wait() do
+        pcall(function()
+    if _G.crack2 == nil and game.Players.LocalPlayer.Character ~= nil then
+        _G.crack2 = game.Players.LocalPlayer.Character.Parent.Name
+        wait()
+    end
+end)
+    end
+end)
