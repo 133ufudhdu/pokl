@@ -1,0 +1,106 @@
+checkcaller = checkcaller
+newcclosure = newcclosure
+hookmetamethod = hookmetamethod
+
+local PastedSources = false
+local BruhXD = game:GetService("RunService")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Bullshit = LocalPlayer:GetMouse()
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+local UICorner = Instance.new("UICorner")
+
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+Frame.BackgroundTransparency = 0.500
+Frame.Position = UDim2.new(0.858712733, 0, 0.0237762257, 0)
+Frame.Size = UDim2.new(0.129513338, 0, 0.227972031, 0)
+
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BackgroundTransparency = 1.000
+TextButton.Size = UDim2.new(1, 0, 1, 0)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "关闭"
+TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.TextScaled = true
+TextButton.TextSize = 50.000
+TextButton.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextStrokeTransparency = 0.000
+TextButton.TextWrapped = true
+TextButton.MouseButton1Down:Connect(function()
+    if TextButton.Text == "关闭" then
+        TextButton.Text = "打开"
+    else
+        TextButton.Text = "关闭"
+    end
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E" , false , game)
+end)
+
+UITextSizeConstraint.Parent = TextButton
+UITextSizeConstraint.MaxTextSize = 30
+
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/133ufudhdu/YuanBanVapeLib/main/k"))()
+
+local win = lib:Window("通用脚本",Color3.fromRGB(0, 255, 0), Enum.KeyCode.E)
+
+local tab = win:Tab("主要功能")
+
+tab:Toggle("甩飞", false, function(value)
+    PastedSources = value
+end)
+
+function RandomNumberRange(a)
+        return math.random(-a * 100, a * 100) / 100
+end
+
+function RandomVectorRange(a, b, c)
+        return Vector3.new(RandomNumberRange(a), RandomNumberRange(b), RandomNumberRange(c))
+end
+
+
+local DesyncTypes = {}
+BruhXD.Heartbeat:Connect(function()
+        if PastedSources == true then
+                DesyncTypes[1] = LocalPlayer.Character.HumanoidRootPart.CFrame
+                DesyncTypes[2] = LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity
+
+                local SpoofThis = LocalPlayer.Character.HumanoidRootPart.CFrame
+
+                SpoofThis = SpoofThis * CFrame.new(Vector3.new(0, 0, 0))
+                SpoofThis = SpoofThis * CFrame.Angles(math.rad(RandomNumberRange(180)), math.rad(RandomNumberRange(180)), math.rad(RandomNumberRange(180)))
+
+                LocalPlayer.Character.HumanoidRootPart.CFrame = SpoofThis
+
+                LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity = Vector3.new(1, 1, 1) * 16384
+
+                BruhXD.RenderStepped:Wait()
+
+                LocalPlayer.Character.HumanoidRootPart.CFrame = DesyncTypes[1]
+                LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity = DesyncTypes[2]
+        end
+end)
+
+local XDDDDDD = nil
+XDDDDDD = hookmetamethod(game, "__index", newcclosure(function(self, key)
+        if PastedSources == true then
+                if not checkcaller() then
+                        if key == "CFrame" and PastedSources == true and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character:FindFirstChild("Humanoid").Health > 0 then
+                                if self == LocalPlayer.Character.HumanoidRootPart then
+                                        return DesyncTypes[1] or CFrame.new()
+                                elseif self == LocalPlayer.Character.Head then
+                                        return DesyncTypes[1] and DesyncTypes[1] + Vector3.new(0, LocalPlayer.Character.HumanoidRootPart.Size / 2 + 0.5, 0) or CFrame.new()
+                                end
+                        end
+                end
+        end
+        return XDDDDDD(self, key)
+end))
