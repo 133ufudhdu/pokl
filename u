@@ -1,0 +1,224 @@
+if not game:IsLoaded() then
+	game.Loaded:Wait()
+end
+wait()
+_G.On = false
+_G.On2 = false
+_G.auto = false
+_G.multipier = 0
+local Codes = {
+	"strongman",
+	"100m",
+	"Chad",
+	"10m",
+	"25k",
+	"1500likes",
+	"5000likes",
+	"10000",
+	"500likes"
+}
+function testinterest(part, totouch, staticnum)
+    local test = part.CFrame
+    part.CFrame = totouch.CFrame
+    task.wait(0.2)
+    part.CFrame = test
+end
+local HumanoidRootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
+local task_defer = task.defer
+local pairs = pairs
+local rs = game:GetService("RunService")
+local area = game:GetService("Workspace").Areas["Area14_Retro"]
+local fireproximityprompt = fireproximityprompt
+local prox
+local function GetBadges()
+	for _, v in pairs(game:GetService("Workspace").BadgeColliders:GetChildren()) do
+		firetouchinterest(HumanoidRootPart, v, 0)
+		firetouchinterest(HumanoidRootPart, v, 1)
+	end
+end
+local function autoworkout()
+	wait(0.1)
+	for i, v in pairs(game:GetService("Workspace").Areas.Area1.Gym.TrainingEquipment:GetDescendants()) do
+		if v:IsA("ProximityPrompt") then
+			HumanoidRootPart.CFrame = game:GetService("Workspace").Areas.Area1.Gym.TrainingEquipment.WorkoutStation.Collider.CFrame
+			repeat
+				wait()
+				fireproximityprompt(v)
+			until HumanoidRootPart.Anchored == true
+		end
+	end
+	while _G.auto do
+		task.wait()
+		if not _G.multipier or _G.multipier == 0 then
+			game:GetService("ReplicatedStorage").StrongMan_UpgradeStrength:InvokeServer()
+		else
+			game:GetService("ReplicatedStorage").StrongMan_UpgradeStrength:InvokeServer(_G.multipier)
+		end
+	end
+end
+
+local function BreakExits()
+	for _, v in pairs(game:GetService("Workspace").Areas:GetDescendants()) do
+		if v.Name:lower():find("exit") or v.Name:lower():find("copy") then
+			v:Destroy()
+		end
+	end
+end
+local Dragify = {}
+pcall(function() Dragify = loadstring(game:HttpGet("http://ligma.wtf/scripts/drag.lua", true))() end)
+for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+	if v:IsA("BoolValue") and v.Name == "IgnoreInStudio" and v.Parent:IsA("Script") then
+        v.Parent.Parent.ChildAdded:Connect(function(add)
+	     rs.RenderStepped:Wait()
+	     add:Destroy()
+    end)
+        v.Parent.Parent:FindFirstChildWhichIsA("Part"):Destroy()
+    end
+end
+local rs = game:GetService("RunService")
+game:GetService("Workspace").PlayerDraggables[game.Players.LocalPlayer.UserId].DescendantAdded:Connect(function(added)
+	if added.Name == "ExtraWeight" and _G.noweight then
+		added:Destroy()
+	end
+end)
+game:GetService("Workspace").PlayerDraggables[game.Players.LocalPlayer.UserId].DescendantAdded:Connect(function(added)
+	rs.RenderStepped:Wait()
+	if added:IsA("Part") and added:FindFirstChild("Coins") ~= nil then
+		if not _G.On then
+			return
+		end
+		repeat
+			wait(0.1)
+			firetouchinterest(added, game:GetService("Workspace").Areas["Area14_Retro"].Goal, 0)
+			firetouchinterest(added, game:GetService("Workspace").Areas["Area14_Retro"].Goal, 1)
+		until added == nil
+	end
+end)
+
+task_defer(function()
+    game:GetService("Workspace").PlayerDraggables[game.Players.LocalPlayer.UserId].DescendantAdded:Connect(function(added)
+	rs.RenderStepped:Wait()
+	if added:IsA("Part") and added:FindFirstChild("Coins") ~= nil then
+		if not _G.On2 then
+			return
+		end
+		repeat
+			task.wait(0.1)
+			testinterest(added, game:GetService("Workspace").Areas["Area14_Retro"].Goal, "static")
+		until added == nil
+	end
+end)
+end)
+
+local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))() 
+ local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+ wait(1) 
+ Notification:Notify( 
+     {Title = "小达", Description = "正在加载"}, 
+     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "image"}, 
+     {Image = "http://www.roblox.com/asset/?id=4483345998", ImageColor = Color3.fromRGB(255, 84, 84)} 
+ ) 
+ wait(2) 
+ Notification:Notify( 
+     {Title = "小达", Description = "准备好了！"}, 
+     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "image"}, 
+     {Image = "http://www.roblox.com/asset/?id=4483345998", ImageColor = Color3.fromRGB(255, 84, 84)} 
+ )
+ wait(0.2)
+ Notification:Notify( 
+     {Title = "小达", Description = "支持作者小达"}, 
+     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 10, Type = "image"}, 
+     {Image = "http://www.roblox.com/asset/?id=4483345998", ImageColor = Color3.fromRGB(255, 84, 84)} 
+ )
+ wait(0.4)
+ 
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+local UICorner = Instance.new("UICorner")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+Frame.BackgroundTransparency = 0.500
+Frame.Position = UDim2.new(0.858712733, 0, 0.0237762257, 0)
+Frame.Size = UDim2.new(0.129513338, 0, 0.227972031, 0)
+
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BackgroundTransparency = 1.000
+TextButton.Size = UDim2.new(1, 0, 1, 0)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "关闭"
+TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.TextScaled = true
+TextButton.TextSize = 50.000
+TextButton.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextStrokeTransparency = 0.000
+TextButton.TextWrapped = true
+TextButton.MouseButton1Down:Connect(function()
+    if TextButton.Text == "关闭" then
+        TextButton.Text = "打开"
+    else
+        TextButton.Text = "关闭"
+    end
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E" , false , game)
+end) -- replace "E" with your keybind
+
+UITextSizeConstraint.Parent = TextButton
+UITextSizeConstraint.MaxTextSize = 30
+
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/133ufudhdu/YuanBanVapeLib/main/k"))()
+
+local win = lib:Window("超级大力士模拟器",Color3.fromRGB(0, 255, 0), Enum.KeyCode.E) -- your own keybind 
+
+local tab = win:Tab("主要功能")
+local tab2 = win:Tab("其他功能")
+
+tab:Toggle("自动锻炼", false, function(value)
+    _G.On2 = value
+	HumanoidRootPart.CFrame = CFrame.new(-79.9094696, 19.8263607, 8124.82129, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+	HumanoidRootPart.Anchored = false
+	wait(0.1)
+	task_defer(function()
+		game.RunService.RenderStepped:connect(function()
+			if _G.On2 then
+			    workspace.Gravity = math.huge
+			    HumanoidRootPart.CFrame = CFrame.new(-79.9094696, 19.8263607, 8124.82129, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+			    fireproximityprompt(_G.Prox, 0)
+			else
+			    workspace.Gravity = 196.2 
+		    end
+		end)
+	end)
+end)
+
+tab:Toggle("自动强度", false, function(value)
+    _G.auto = value
+	if _G.auto then
+		pcall(function() game:GetService("CoreGui").PurchasePromptApp.Enabled = false end)
+		task_defer(autoworkout)
+	else
+			pcall(function() game:GetService("CoreGui").PurchasePromptApp.Enabled = true end)
+	end
+end)
+
+tab:Toggle("删除购买提示", false, function(value)
+    _G.Value = value
+	if _G.value then
+		game:GetService("CoreGui").PurchasePromptApp.Enabled = false
+	else
+		_G.Value = value
+		game:GetService("CoreGui").PurchasePromptApp.Enabled = true
+	end
+end)
+
+tab2:Button("获取所有勋章", function()
+    GetBadges()
+end)
