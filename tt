@@ -1,0 +1,401 @@
+local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))() 
+ local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))() 
+
+ wait(1) 
+ Notification:Notify( 
+     {Title = "小达", Description = "正在加载"}, 
+     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "image"}, 
+     {Image = "http://www.roblox.com/asset/?id=4483345998", ImageColor = Color3.fromRGB(255, 84, 84)} 
+ ) 
+ wait(2) 
+ Notification:Notify( 
+     {Title = "小达", Description = "准备好了！"}, 
+     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "image"}, 
+     {Image = "http://www.roblox.com/asset/?id=4483345998", ImageColor = Color3.fromRGB(255, 84, 84)} 
+ )
+ wait(0.2)
+ Notification:Notify( 
+     {Title = "小达", Description = "支持作者小达"}, 
+     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 10, Type = "image"}, 
+     {Image = "http://www.roblox.com/asset/?id=4483345998", ImageColor = Color3.fromRGB(255, 84, 84)} 
+ )
+ wait(0.4)
+ 
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+local UICorner = Instance.new("UICorner")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+Frame.BackgroundTransparency = 0.500
+Frame.Position = UDim2.new(0.858712733, 0, 0.0237762257, 0)
+Frame.Size = UDim2.new(0.129513338, 0, 0.227972031, 0)
+
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BackgroundTransparency = 1.000
+TextButton.Size = UDim2.new(1, 0, 1, 0)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "关闭"
+TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.TextScaled = true
+TextButton.TextSize = 50.000
+TextButton.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextStrokeTransparency = 0.000
+TextButton.TextWrapped = true
+TextButton.MouseButton1Down:Connect(function()
+    if TextButton.Text == "关闭" then
+        TextButton.Text = "打开"
+    else
+        TextButton.Text = "关闭"
+    end
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, "E" , false , game)
+end) -- replace "E" with your keybind
+
+UITextSizeConstraint.Parent = TextButton
+UITextSizeConstraint.MaxTextSize = 30
+
+local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/133ufudhdu/YuanBanVapeLib/main/k"))()
+
+local win = lib:Window("逃离建筑",Color3.fromRGB(0, 255, 0), Enum.KeyCode.E) -- your own keybind 
+
+local tab = win:Tab("幸存者功能")
+local tab2 = win:Tab("野兽功能")
+
+tab:Toggle("透视玩家", false, function(state)
+    if state == true then
+	for i,v in pairs(game.Players:GetChildren()) do
+		if v:IsA("Player") and v.Name ~= game.Players.LocalPlayer.Name then
+			pcall(function()
+				local transparency = 0.5
+				local Folder = Instance.new("Folder",v.Character)
+				Folder.Name = v.Name .. "'s ESP"
+				--Head
+				local Head = Instance.new("BoxHandleAdornment",Folder)
+				Head.AlwaysOnTop = true
+				Head.Adornee = v.Character.Head
+				Head.ZIndex = 1
+				Head.Name = "Head"
+				Head.Transparency = transparency
+				Head.Size = v.Character.Head.Size
+				--Torso
+				local Torso = Instance.new("BoxHandleAdornment",Folder)
+				Torso.AlwaysOnTop = true
+				Torso.Adornee = v.Character.Torso
+				Torso.ZIndex = 1
+				Torso.Name = "Torso"
+				Torso.Transparency = transparency
+				Torso.Size = v.Character.Torso.Size
+				--Left Arm
+				local LeftArm = Instance.new("BoxHandleAdornment",Folder)
+				LeftArm.AlwaysOnTop = true
+				LeftArm.Adornee = v.Character["Left Arm"]
+				LeftArm.ZIndex = 1
+				LeftArm.Name = "LeftArm"
+				LeftArm.Transparency = transparency
+				LeftArm.Size = v.Character["Left Arm"].Size
+				--Right Arm
+				local RightArm = Instance.new("BoxHandleAdornment",Folder)
+				RightArm.AlwaysOnTop = true
+				RightArm.Adornee = v.Character["Right Arm"]
+				RightArm.ZIndex = 1
+				RightArm.Name = "RightArm"
+				RightArm.Transparency = transparency
+				RightArm.Size = v.Character["Right Arm"].Size
+				--Right Leg
+				local RightLeg = Instance.new("BoxHandleAdornment",Folder)
+				RightLeg.AlwaysOnTop = true
+				RightLeg.Adornee = v.Character["Right Leg"]
+				RightLeg.ZIndex = 1
+				RightLeg.Name = "RightLeg"
+				RightLeg.Transparency = transparency
+				RightLeg.Size = v.Character["Right Leg"].Size
+				--Left Leg
+				local LeftLeg = Instance.new("BoxHandleAdornment",Folder)
+				LeftLeg.AlwaysOnTop = true
+				LeftLeg.Name = "LeftLeg"
+				LeftLeg.Adornee = v.Character["Left Leg"]
+				LeftLeg.ZIndex = 1
+				LeftLeg.Transparency = transparency
+				LeftLeg.Size = v.Character["Left Leg"].Size
+				--Colors if beast or not
+				getgenv().LoopBeastColor = game.RunService.Stepped:Connect(function()
+				if v.TempPlayerStatsModule.IsBeast.Value == true then
+					Head.Color3 = Color3.fromRGB(205, 98, 152)
+					Torso.Color3 = Color3.fromRGB(205, 98, 152)
+					LeftArm.Color3 = Color3.fromRGB(205, 98, 152)
+					RightArm.Color3 = Color3.fromRGB(205, 98, 152)
+					RightLeg.Color3 = Color3.fromRGB(205, 98, 152)
+					LeftLeg.Color3 = Color3.fromRGB(205, 98, 152)
+				elseif v.TempPlayerStatsModule.IsBeast.Value == false then
+					Head.Color3 = Color3.new(225,1,1)
+					Torso.Color3 = Color3.new(1,1,1)
+					LeftArm.Color3 = Color3.new(1,1,1)
+					RightArm.Color3 = Color3.new(1,1,1)
+					RightLeg.Color3 = Color3.new(1,1,1)
+					LeftLeg.Color3 = Color3.new(1,1,1)
+				end
+				end)
+        --[[
+        --BillboardGui
+        local BillboardGui = Instance.new("BillboardGui",Folder)
+        BillboardGui.AlwaysOnTop = true
+        BillboardGui.Enabled = true
+        BillboardGui.Adornee = v.Character.Head
+        BillboardGui.Size = UDim2.new(0,100,0,100)
+        --NameTag
+        local NameTag = Instance.new("TextLabel",BillboardGui)
+        NameTag.BackgroundTransparency = 1
+        NameTag.Size = UDim2.new(0,100,0,10)
+        if v.TempPlayerStatsModule.IsBeast.Value == true then
+        NameTag.TextColor3 = Color3.new(1,0,0)
+        elseif v.TempPlayerStatsModule.IsBeast.Value == false then
+        NameTag.TextColor3 = Color3.new(1,1,1)
+        end
+        NameTag.ZIndex = 10
+        NameTag.Visible = true
+        NameTag.TextSize = 20
+        NameTag.Text = "Name: " .. v.Name
+        ]]
+			end)
+		end
+	end
+else
+getgenv().LoopBeastColor:Disconnect()
+for i,v in pairs(game.Players:GetChildren()) do
+    if v:IsA("Player") then
+   for i,e in pairs(v.Character:GetChildren()) do
+   if e:IsA("Folder") then
+       pcall(function()
+       e:Destroy()
+       end)
+end
+end
+end
+end
+end
+end)
+
+tab:Toggle("透视门", false, function(state)
+    if state == true then
+getgenv().DoorESP = false
+	spawn(function()
+		--single doors
+		for i,v in pairs(workspace:GetDescendants()) do
+			if v.Name == "SingleDoor" then
+				pcall(function()
+					local ESP = Instance.new("Highlight")
+					ESP.Parent = v.Door
+				end)
+
+			end
+		end
+		wait(1)
+
+		for i,v in pairs(workspace:GetDescendants()) do
+			if v.Name == "SingleDoor" then
+				spawn(function()
+					while true do
+						pcall(function()
+							if v.DoorTrigger.ActionSign.Value == 11 then
+								v.Door.Highlight.FillColor = Color3.new(0,1,0)
+							elseif v.DoorTrigger.ActionSign.Value == 10 then
+								v.Door.Highlight.FillColor = Color3.new(1,0,0)
+							end
+						end)
+						if getgenv().DoorESP == true then
+						    break;
+						end
+						wait(0.1)
+					end
+				end)
+				
+				
+			end
+		end
+		
+	end)
+	--double doors
+	spawn(function()
+		for i,v in pairs(workspace:GetDescendants()) do
+			if v.Name == "DoubleDoor" then
+				pcall(function()
+					local ESP = Instance.new("Highlight")
+					ESP.Parent = v
+				end)
+
+			end
+		end
+		wait(1)
+
+		for i,v in pairs(workspace:GetDescendants()) do
+			if v.Name == "DoubleDoor" then
+				spawn(function()
+					while true do
+						pcall(function()
+							if v.DoorTrigger.ActionSign.Value == 11 then
+								v.Highlight.FillColor = Color3.new(0,1,0)
+							elseif v.DoorTrigger.ActionSign.Value == 10 then
+								v.Highlight.FillColor = Color3.new(1,0,0)
+							end
+						end)
+                        if getgenv().DoorESP == true then
+                             print("Stopped itLop!2")
+                             break;
+                        end
+                        wait(0.1)
+					end
+				end)
+			end
+		end
+	end)
+else
+getgenv().DoorESP = true
+	--signle door
+	for i,v in pairs(workspace:GetDescendants()) do
+		if v.Name == "SingleDoor" then
+			pcall(function()
+				v.Door.Highlight:Destroy()
+			end)
+
+		end
+	end
+
+	--double doors
+	for i,v in pairs(workspace:GetDescendants()) do
+		if v.Name == "DoubleDoor" then
+			pcall(function()
+				v.Highlight:Destroy()
+			end)
+
+		end
+	end
+end
+end)
+
+tab:Toggle("电脑透视", false, function(state)
+    if state == true then
+getgenv().StopComputerESP = false
+for i,v in pairs(workspace:GetDescendants()) do 
+    if v.Name == "ComputerTable" then
+        pcall(function()
+        local ESP = Instance.new("Highlight",v)
+        end)
+    end
+end
+
+spawn(function()
+while true do
+for i,v in pairs(workspace:GetDescendants()) do
+    if v.Name == "ComputerTable" then
+        if v.Screen.BrickColor == BrickColor.new("Bright blue") then
+            pcall(function()
+          v.Highlight.FillColor = Color3.new(0,0,1)
+            end)
+        elseif v.Screen.BrickColor == BrickColor.new("Dark green") then
+            pcall(function()
+          v.Highlight.FillColor = Color3.new(0,1,0)
+            end)
+        end
+        if getgenv().StopComputerESP == true then
+          print("Stopped itLop!PC")
+          break;
+        end
+    end
+end
+wait(1)
+end
+end)
+else
+getgenv().StopComputerESP = true
+for i,v in pairs(workspace:GetDescendants()) do 
+    if v.Name == "ComputerTable" then
+        pcall(function()
+        v.Highlight:Destroy()
+        end)
+    end
+end
+end
+end)
+
+tab:Toggle("冷冻舱透视", false, function(state)
+    if state == true then
+for i,v in pairs(workspace:GetDescendants()) do 
+    if v.Name == "FreezePod" then
+        pcall(function()
+        local ESP = Instance.new("Highlight",v)
+        end)
+    end
+end
+else
+for i,v in pairs(workspace:GetDescendants()) do 
+    if v.Name == "FreezePod" then
+        pcall(function()
+        v.Highlight:Destroy()
+        end)
+    end
+end
+end
+end)
+
+tab:Toggle("加速", false, function(Value)
+    function isNumber(str)
+  if tonumber(str) ~= nil or str == 'inf' then
+    return true
+  end
+end
+local tspeed = 1
+local hb = game:GetService("RunService").Heartbeat
+local tpwalking = true
+local player = game:GetService("Players")
+local lplr = player.LocalPlayer
+local chr = lplr.Character
+local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
+while tpwalking and hb:Wait() and chr and hum and hum.Parent do
+  if hum.MoveDirection.Magnitude > 0 then
+    if tspeed and isNumber(tspeed) then
+      chr:TranslateBy(hum.MoveDirection * tonumber(tspeed))
+    else
+      chr:TranslateBy(hum.MoveDirection)
+    end
+  end
+end
+end)
+
+tab:Toggle("黑客永不失败", false, function(Value)
+    spawn(function()
+while wait() do
+game.ReplicatedStorage.RemoteEvent:FireServer("SetPlayerMinigameResult",true)
+end
+end)
+end)
+
+tab2:Toggle("抓捕范围", false, function(Value)
+    if game.Players.LocalPlayer.TempPlayerStatsModule.IsBeast.Value == true then
+game:GetService("Players").LocalPlayer.TempPlayerStatsModule.DisableCrawl.Value = false
+end
+end)
+
+tab2:Toggle("删除声音和发光", false, function(Value)
+    if game.Players.LocalPlayer.TempPlayerStatsModule.IsBeast.Value == true then
+for i,v in pairs(game.Players.LocalPlayer.Character.Hammer.Handle:GetChildren()) do
+    if v:IsA("Sound") then
+        pcall(function()
+        v:Destroy()
+        end)
+    end
+end
+
+pcall(function()
+game.Players.LocalPlayer.Character.Gemstone.Handle.PointLight:Destroy()
+end)
+end
+end)
