@@ -62,7 +62,7 @@ end)
 UITextSizeConstraint.Parent = TextButton
 UITextSizeConstraint.MaxTextSize = 30
 
-local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/133ufudhdu/YuanBanVapeLib/main/k"))()
+local lib = loadstring(game:HttpGet"https://raw.githubusercontent.com/133ufudhdu/YuanBanVapeLib/main/k")()
 
 local win = lib:Window("51区",Color3.fromRGB(0, 255, 0), Enum.KeyCode.E) -- your own keybind 
 
