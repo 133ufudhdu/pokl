@@ -1,6 +1,6 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
-   Name = "XCHain - 2.5.2 官方版（未完成版本/测试中）",
+   Name = "chain脚本作者小达",
    Icon = 16310770488, -- 顶部栏图标。可使用 Lucide 图标（字符串）或 Roblox 图像（数字）。0 表示不使用图标（默认）。
    LoadingTitle = "Chain when he hears about chainmail armor",
    LoadingSubtitle = "by Neonicf/Notezfc & Alan",
@@ -72,11 +72,11 @@ local Button = Tab:CreateButton({
    end,
 })
 local Divider = Tab:CreateDivider()
-local Label = Tab:CreateLabel("如果错过了通知，这里是 discord 服务器！| discord.gg/UG7bH5QUVA", "brush")
+local Label = Tab:CreateLabel("如果错过了通知，这里是 QQ群！| 705257336", "brush")
 local Button = Tab:CreateButton({
-   Name = "复制 discord 邀请链接",
+   Name = "点我复制QQ群",
    Callback = function()
-      setclipboard("discord.gg/UG7bH5QUVA")
+      setclipboard("705257336")
       Rayfield:Notify({
    Title = "成功复制到剪贴板",
    Content = "耶",
@@ -359,7 +359,7 @@ local Toggle = Tab:CreateToggle({
    Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
    Callback = function(Value) -- 这是切换的主要回调函数
 		local Players = game:GetService("Players")
-		local targetUsers = {"JankCorp", "JakeDravioli", "1Boomah"} -- 替换为你要检测的用户名
+		local targetUsers = {"sjqgduf6", "JakeDravioli", "1Boomah"} -- 替换为你要检测的用户名
 		local targetSet = {} -- 用于更快的查找
 		-- 填充集合以加快检查速度
 		for _, userName in ipairs(targetUsers) do
@@ -393,7 +393,7 @@ local Toggle = Tab:CreateToggle({
    Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
 	Callback = function(Value)
 	local Players = game:GetService("Players")
-	local targetUsers = {"MikoSfx", "Lgl_frijol", "xF_alse", "FluxedThoughts", "Blackcoolia", "Crinsikle", "HolyBlanks", "mightyasher", "ROV3RRO", "Oce1rosTheConsum3d", "Tsunantt", "Shark_bossx007", "AgentCatto", "ashinvy", "roblox_user_841257226"} -- 替换为你要检测的用户名
+	local targetUsers = {"sjqgduf6", "Lgl_frijol", "xF_alse", "FluxedThoughts", "Blackcoolia", "Crinsikle", "HolyBlanks", "mightyasher", "ROV3RRO", "Oce1rosTheConsum3d", "Tsunantt", "Shark_bossx007", "AgentCatto", "ashinvy", "roblox_user_841257226"} -- 替换为你要检测的用户名
 	local targetSet = {} -- 用于更快的查找
 	-- 填充集合以加快检查速度
 	for _, userName in ipairs(targetUsers) do
@@ -427,7 +427,7 @@ local Toggle = Tab:CreateToggle({
    Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
    Callback = function(Value) -- 这是切换的主要回调函数
 		local Players = game:GetService("Players")
-		local targetUsers = {"As3tra1", "GetRightDawg", "N0XMANIAC", "Benthesoccerone", "Megamind184", "OrekLus1", "maravilye2312", "euphoria4830", "XHttpkeVin", "ddelus1", "Chromixx_WasTaken"} -- 替换为你要检测的用户名
+		local targetUsers = {"sjqgduf6", "GetRightDawg", "N0XMANIAC", "Benthesoccerone", "Megamind184", "OrekLus1", "maravilye2312", "euphoria4830", "XHttpkeVin", "ddelus1", "Chromixx_WasTaken"} -- 替换为你要检测的用户名
 		local targetSet = {} -- 用于更快的查找
 		-- 填充集合以加快检查速度
 		for _, userName in ipairs(targetUsers) do
@@ -495,7 +495,7 @@ local Toggle = Tab:CreateToggle({
    Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
    Callback = function(Value) -- 这是切换的主要回调函数
 		local Players = game:GetService("Players")
-		local targetUsers = {"Yurixzaaa", "SSpreezzy"} -- 替换为你要检测的用户名
+		local targetUsers = {"sjqgduf6", "SSpreezzy"} -- 替换为你要检测的用户名
 		local targetSet = {} -- 用于更快的查找
 		-- 填充集合以加快检查速度
 		for _, userName in ipairs(targetUsers) do
