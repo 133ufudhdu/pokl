@@ -6,7 +6,7 @@ local Window = Rayfield:CreateWindow({
    LoadingSubtitle = "作者小达",
    Theme = {
     TextColor = Color3.fromRGB(143, 46, 62),
-    Background = Color3.fromRGB(3, 2, 2),
+    Background = Color3.fromRGB(20, 20, 20), -- 已改为深灰色背景
     Topbar = Color3.fromRGB(0, 0, 0),
     Shadow = Color3.fromRGB(82, 29, 29),
     NotificationBackground = Color3.fromRGB(0, 0, 0),
@@ -127,8 +127,8 @@ local ColorPicker = Tab:CreateColorPicker({
 })
 local Divider = Tab:CreateDivider()
 Rayfield:Notify({
-   Title = "趣闻",
-   Content = "NÃ«onicf 是 iOS 用户，& Alan 是 Windows 用户 | 加入我的 Discord：dsc.gg/UG7bH5QUVA",
+   Title = "新闻",
+   Content = "Chain 脚本由小达制作想要提前知道通知加入QQ群705257336",
    Duration = 11.5,
    Image = 13710496582
 })
