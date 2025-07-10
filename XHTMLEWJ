@@ -1,1 +1,1825 @@
-
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Window = Rayfield:CreateWindow({
+   Name = "chain脚本作者小达",
+   Icon = 16310770488, -- 顶部栏图标。可使用 Lucide 图标（字符串）或 Roblox 图像（数字）。0 表示不使用图标（默认）。
+   LoadingTitle = "感谢你的使用",
+   LoadingSubtitle = "作者小达",
+   Theme = {
+    TextColor = Color3.fromRGB(143, 46, 62),
+    Background = Color3.fromRGB(20, 20, 20), -- 已改为深灰色背景
+    Topbar = Color3.fromRGB(0, 0, 0),
+    Shadow = Color3.fromRGB(82, 29, 29),
+    NotificationBackground = Color3.fromRGB(0, 0, 0),
+    NotificationActionsBackground = Color3.fromRGB(207, 204, 204),
+    TabBackground = Color3.fromRGB(0, 0, 0),
+    TabStroke = Color3.fromRGB(255, 255, 255),
+    TabBackgroundSelected = Color3.fromRGB(0, 0, 0),
+    TabTextColor = Color3.fromRGB(255, 230, 255),
+    SelectedTabTextColor = Color3.fromRGB(230, 230, 230),
+    ElementBackground = Color3.fromRGB(0, 0, 0),
+    ElementBackgroundHover = Color3.fromRGB(0, 0, 0),
+    SecondaryElementBackground = Color3.fromRGB(0, 0, 0),
+    ElementStroke = Color3.fromRGB(71, 24, 24),
+    SecondaryElementStroke = Color3.fromRGB(71, 24, 24),
+            
+    SliderBackground = Color3.fromRGB(0, 0, 0),
+    SliderProgress = Color3.fromRGB(0, 0, 0),
+    SliderStroke = Color3.fromRGB(230, 230, 230),
+    ToggleBackground = Color3.fromRGB(0, 0, 0),
+    ToggleEnabled = Color3.fromRGB(207, 204, 204),
+    ToggleDisabled = Color3.fromRGB(255, 255, 255),
+    ToggleEnabledStroke = Color3.fromRGB(0, 0, 0),
+    ToggleDisabledStroke = Color3.fromRGB(0, 0, 0),
+    ToggleEnabledOuterStroke = Color3.fromRGB(71, 24, 24),
+    ToggleDisabledOuterStroke = Color3.fromRGB(71, 24, 24),
+    DropdownSelected = Color3.fromRGB(71, 24, 24),
+    DropdownUnselected = Color3.fromRGB(0, 0, 0),
+    InputBackground = Color3.fromRGB(0, 0, 0),
+    InputStroke = Color3.fromRGB(65, 65, 65),
+    PlaceholderColor = Color3.fromRGB(71, 24, 24)
+}, -- 查看 https://docs.sirius.menu/rayfield/configuration/themes
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- 防止 Rayfield 在脚本与界面版本不匹配时发出警告
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = XCHain, -- 为你的 hub/游戏创建一个自定义文件夹
+      FileName = "Chain 脚本由小达制作 "
+   },
+   Discord = {
+      Enabled = true, -- 如果用户的执行器支持，提示用户加入你的QQ群705257336
+      Invite = "705257336", -- QQ群705257336
+      RememberJoins = true -- 设置为 false 可让用户每次加载时都加入 QQ群705257336
+   },
+   KeySystem = false, -- 设置为 true 以使用我们的密钥系统
+   KeySettings = {
+      Title = "未命名",
+      Subtitle = "密钥系统",
+      Note = "未提供获取密钥的方法", -- 用于告诉用户如何获取密钥
+      FileName = "Key", -- 建议使用独特的名称，因为其他使用 Rayfield 的脚本可能会覆盖你的密钥文件
+      SaveKey = true, -- 用户的密钥将被保存，但如果你更改密钥，他们将无法使用你的脚本
+      GrabKeyFromSite = false, -- 如果为 true，请在下面的 Key 中设置 Rayfield 获取密钥的 RAW 网站
+      Key = {"Hello"} -- 系统接受的密钥列表，可以是 RAW 文件链接（pastebin、github 等）或简单字符串（"hello"、"key22"）
+   }
+})
+local Tab = Window:CreateTab("主标签页</>", "syringe") -- 标题，图像
+local Section = Tab:CreateSection("Windows 用户可能会因 Chain 中的反作弊而被踢出")
+local Button = Tab:CreateButton({
+   Name = "移除 Adonis 反作弊",
+   Callback = function()
+      local adonis = "https://raw.githubusercontent.com/Pixeluted/adoniscries/refs/heads/main/Source.lua"
+            loadstring(game:HttpGet(adonis))()
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Label = Tab:CreateLabel("如果错过了通知，这里是 QQ群！| 705257336", "brush")
+local Button = Tab:CreateButton({
+   Name = "点我复制QQ群",
+   Callback = function()
+      setclipboard("705257336")
+      Rayfield:Notify({
+   Title = "成功复制到剪贴板",
+   Content = "耶",
+   Duration = 7,
+   Image = 119775677237737,
+})
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "销毁 UI",
+   Callback = function()
+		Rayfield:Destroy()
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Button = Tab:CreateButton({
+   Name = "第一章脚本（作者：Neonicf）",
+   Callback = function()
+      local xchainc1 = "https://pastebin.com/raw/0uW4VrYy"
+      loadstring(game:HttpGet(xchainc1))()
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Button = Tab:CreateButton({
+   Name = "打印 Chainsaw is funny chain",
+   Callback = function()
+		print("Chainsaw is funny chain.. you really checked your console huh? well idk, funfact: Lemons float in water but limes sink in water")
+      Rayfield:Notify({
+   Title = "已打印",
+   Content = "相信我，去检查控制台",
+   Duration = 0.5,
+   Image = 12931490629,
+})
+   -- 按钮按下时执行的函数
+   end,
+})
+local ColorPicker = Tab:CreateColorPicker({
+    Name = "随机颜色选择器（我不知道有啥用）",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "ColorPicker1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+    Callback = function(Value)
+        -- 颜色选择器移动/更改时执行的函数
+        -- 变量 (Value) 是基于所选颜色的 Color3fromRGB 值
+    end
+})
+local Divider = Tab:CreateDivider()
+Rayfield:Notify({
+   Title = "新闻",
+   Content = "Chain 脚本由小达制作想要提前知道通知加入QQ群705257336",
+   Duration = 11.5,
+   Image = 13710496582
+})
+local Tab = Window:CreateTab("角色配置", "wrench") -- 标题，图像
+local Section = Tab:CreateSection("其中一些可能有 bug 或不稳定")
+local Divider = Tab:CreateDivider()
+local Toggle = Tab:CreateToggle({
+   Name = "无限耐力",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+      while true do
+         game.Players.LocalPlayer.Character.Stats.Stamina.Value = 100
+            wait(0.5)
+            end
+      
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "无限战斗耐力",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+      while true do
+         game.Players.LocalPlayer.Character.Stats.CombatStamina.Value = 100
+            wait(0.5)
+            end
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "自动赢得 XSaw 对抗",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+      while true do
+         game.Players.LocalPlayer.Character.Stats.ClashStrength.Value = 100
+            wait(0.005)
+            end
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Toggle = Tab:CreateToggle({
+   Name = "无限 xsaw 汽油",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+      while true do
+         game.Players.LocalPlayer.Character.Items.XSaw:SetAttribute("Gas", 100)
+            wait(0.01)
+            end
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "自动瞄准 - 不是我的",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/BongCloudMaster/CHAIN/main/aimbot.lua"))()
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Label = Tab:CreateLabel("不要使用无限弹药，因为它已被 chain 开发者修复，有人告诉我 Ak47 和 Deagle 弹药仍然有效，所以可以试试", "cloud-hail")
+local Button = Tab:CreateButton({
+   Name = "无限 AK-47 弹药",
+   Callback = function()
+		while true do
+	game.Players.LocalPlayer.Character.Items.AK47:SetAttribute("Ammo", 9999)
+		wait(0.01)
+		end
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "无限 Deagle 弹药",
+   Callback = function()
+		while true do
+	game.Players.LocalPlayer.Character.Items.Deagle:SetAttribute("Ammo", 9999)
+		wait(0.1)
+		end
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Slider = Tab:CreateSlider({
+   Name = "移动速度 - 有问题，别用",
+   Range = {0, 375},
+   Increment = 1,
+   Suffix = "速度",
+   CurrentValue = 12,
+   Flag = "Slider1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+      while true do
+   game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+      wait(0)
+      end
+   -- 滑块变化时执行的函数
+   -- 变量 (Value) 是一个数字，与滑块当前的值相关
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "将速度设置为 12 - 默认速度",
+   Callback = function()
+      game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 12
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Button = Tab:CreateButton({
+   Name = "绕过捕熊器放置限制",
+   Callback = function()
+      game:GetService("Players").LocalPlayer.PlayerStats:SetAttribute("BearTrapPlaced",false)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "第三人称",
+   Callback = function()
+		game.Players.LocalPlayer.CameraMode = Enum.CameraMode.Classic game.Players.LocalPlayer.CameraMaxZoomDistance = 1280 game.Players.LocalPlayer.CameraMinZoomDistance = 0.5
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "移除头上的面具 - 第三人称",
+   Callback = function()
+		game.Players.LocalPlayer.Character.Sack.SurfaceAppearance.Parent:Destroy()
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Toggle = Tab:CreateToggle({
+   Name = "CHAIN 碰撞箱扩展器 beta - 不起作用，可能会使 CHAIN 出错",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+		while true do
+	workspace.Misc.AI.CHAIN.Torso.Size = Vector3.new(3, 3, 3) -- 替换为你想要的 X、Y 和 Z 维度
+	workspace.Misc.AI.CHAIN.Torso.CanCollide = false
+	workspace.Misc.AI.CHAIN.Torso.Transparency = 0.7
+	workspace.Misc.AI.CHAIN.Torso.BrickColor = BrickColor.new("Neon Red")
+	workspace.Misc.AI.CHAIN.Torso.Material = Enum.Material.Neon
+	wait(3)
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   		end
+	end,
+})
+local Divider = Tab:CreateDivider()
+local Section = Tab:CreateSection("无限闪避已修复")
+local Toggle = Tab:CreateToggle({
+   Name = "无限闪避（先移除 Adonis）我也建议不要使用",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+		Rayfield:Notify({
+   Title = "警告！！！",
+   Content = "在主标签页移除 Adonis，否则你可能会被踢出",
+   Duration = 6.5,
+   Image = "rewind",
+})
+		local __namecall
+__namecall = hookmetamethod(game, "__namecall", function(self, ...)
+    if not checkcaller() then
+        if getnamecallmethod() == "FireServer" then
+            if self.Name == "CTS" then
+                local args = {...}
+                if args[1] == "DoneDodge" then
+                    print('dodgeagain0_0')
+                    args[1] = "Dodge"
+                end
+                return __namecall(self, unpack(args))
+            end;
+        end;
+    end;
+    return __namecall(self, ...)
+end);
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Tab = Window:CreateTab("其他", "cog")
+local Label = Tab:CreateLabel("这些大多是会封禁/举报你的人，所以要小心！", "box")
+local Toggle = Tab:CreateToggle({
+   Name = "检测特别鸣谢人员",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value) -- 这是切换的主要回调函数
+		local Players = game:GetService("Players")
+		local targetUsers = {"Mylezeezz", "Sir_Mason13", "jasper_creations", "ItzRoboMaggot", "CyroTr00per"} -- 替换为你要检测的用户名
+		local targetSet = {} -- 用于更快的查找
+		-- 填充集合以加快检查速度
+		for _, userName in ipairs(targetUsers) do
+			targetSet[userName] = true
+		end
+		local function notify(playerName, joined)
+			Rayfield:Notify({
+			   Title = "检测到特别鸣谢人员",
+			   Content = "检测到 " .. playerName .. (joined and " 已加入。" or " 已在场。"),
+			   Duration = 17.5,
+			   Image = 4483362458,
+			})
+		end
+		local function onPlayerAdded(player)
+			if targetSet[player.Name] then
+				notify(player.Name, true)
+			end
+		end
+		Players.PlayerAdded:Connect(onPlayerAdded)
+		-- 检查已在游戏中的用户
+		for _, player in Players:GetPlayers() do
+			if targetSet[player.Name] then
+				notify(player.Name, false)
+			end
+		end
+   end, -- 切换回调函数的闭合括号
+})
+local Toggle = Tab:CreateToggle({
+   Name = "检测贡献者",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value) -- 这是切换的主要回调函数
+		local Players = game:GetService("Players")
+		local targetUsers = {"sjqgduf6", "JakeDravioli", "1Boomah"} -- 替换为你要检测的用户名
+		local targetSet = {} -- 用于更快的查找
+		-- 填充集合以加快检查速度
+		for _, userName in ipairs(targetUsers) do
+			targetSet[userName] = true
+		end
+		local function notify(playerName, joined)
+			Rayfield:Notify({
+			   Title = "检测到贡献者",
+			   Content = "检测到 " .. playerName .. (joined and " 已加入。" or " 已在场。"),
+			   Duration = 17.5,
+			   Image = 4483362458,
+			})
+		end
+		local function onPlayerAdded(player)
+			if targetSet[player.Name] then
+				notify(player.Name, true)
+			end
+		end
+		Players.PlayerAdded:Connect(onPlayerAdded)
+		-- 检查已在游戏中的用户
+		for _, player in Players:GetPlayers() do
+			if targetSet[player.Name] then
+				notify(player.Name, false)
+			end
+		end
+   end, -- 切换回调函数的闭合括号
+})
+local Toggle = Tab:CreateToggle({
+   Name = "检测测试人员",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+	Callback = function(Value)
+	local Players = game:GetService("Players")
+	local targetUsers = {"sjqgduf6", "Lgl_frijol", "xF_alse", "FluxedThoughts", "Blackcoolia", "Crinsikle", "HolyBlanks", "mightyasher", "ROV3RRO", "Oce1rosTheConsum3d", "Tsunantt", "Shark_bossx007", "AgentCatto", "ashinvy", "roblox_user_841257226"} -- 替换为你要检测的用户名
+	local targetSet = {} -- 用于更快的查找
+	-- 填充集合以加快检查速度
+	for _, userName in ipairs(targetUsers) do
+		targetSet[userName] = true
+	end
+	local function notify(playerName, joined)
+		Rayfield:Notify({
+		   Title = "检测到测试人员",
+		   Content = "检测到 " .. playerName .. (joined and " 已加入。" or " 已在场。"),
+		   Duration = 12.5,
+		   Image = "wrench",
+		})
+	end
+	local function onPlayerAdded(player)
+		if targetSet[player.Name] then
+			notify(player.Name, true)
+		end
+	end
+	Players.PlayerAdded:Connect(onPlayerAdded)
+	-- 检查已在游戏中的用户
+	for _, player in Players:GetPlayers() do
+		if targetSet[player.Name] then
+			notify(player.Name, false)
+		end
+	end
+end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "检测管理员/版主（包括服务器管理员）",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value) -- 这是切换的主要回调函数
+		local Players = game:GetService("Players")
+		local targetUsers = {"sjqgduf6", "GetRightDawg", "N0XMANIAC", "Benthesoccerone", "Megamind184", "OrekLus1", "maravilye2312", "euphoria4830", "XHttpkeVin", "ddelus1", "Chromixx_WasTaken"} -- 替换为你要检测的用户名
+		local targetSet = {} -- 用于更快的查找
+		-- 填充集合以加快检查速度
+		for _, userName in ipairs(targetUsers) do
+			targetSet[userName] = true
+		end
+		local function notify(playerName, joined)
+			Rayfield:Notify({
+			   Title = "检测到管理员/版主",
+			   Content = "检测到 " .. playerName .. (joined and " 已加入" or " 已在场。"),
+			   Duration = 15.5,
+			   Image = 4483362458,
+			})
+		end
+		local function onPlayerAdded(player)
+			if targetSet[player.Name] then
+				notify(player.Name, true)
+			end
+		end
+		Players.PlayerAdded:Connect(onPlayerAdded)
+		-- 检查已在游戏中的用户
+		for _, player in Players:GetPlayers() do
+			if targetSet[player.Name] then
+				notify(player.Name, false)
+			end
+		end
+   end, -- 切换回调函数的闭合括号
+})
+local Toggle = Tab:CreateToggle({
+   Name = "检测经理",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value) -- 这是切换的主要回调函数
+		local Players = game:GetService("Players")
+		local targetUsers = {"fraudTheSecond", "IAmUnderAMask"} -- 替换为你要检测的用户名
+		local targetSet = {} -- 用于更快的查找
+		-- 填充集合以加快检查速度
+		for _, userName in ipairs(targetUsers) do
+			targetSet[userName] = true
+		end
+		local function notify(playerName, joined)
+			Rayfield:Notify({
+			   Title = "检测到经理",
+			   Content = "检测到 " .. playerName .. (joined and " 已加入。" or " 已在场。"),
+			   Duration = 17.5,
+			   Image = 4483362458,
+			})
+		end
+		local function onPlayerAdded(player)
+			if targetSet[player.Name] then
+				notify(player.Name, true)
+			end
+		end
+		Players.PlayerAdded:Connect(onPlayerAdded)
+		-- 检查已在游戏中的用户
+		for _, player in Players:GetPlayers() do
+			if targetSet[player.Name] then
+				notify(player.Name, false)
+			end
+		end
+   end, -- 切换回调函数的闭合括号
+})
+local Toggle = Tab:CreateToggle({
+   Name = "检测开发者",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value) -- 这是切换的主要回调函数
+		local Players = game:GetService("Players")
+		local targetUsers = {"sjqgduf6", "SSpreezzy"} -- 替换为你要检测的用户名
+		local targetSet = {} -- 用于更快的查找
+		-- 填充集合以加快检查速度
+		for _, userName in ipairs(targetUsers) do
+			targetSet[userName] = true
+		end
+		local function notify(playerName, joined)
+			Rayfield:Notify({
+			   Title = "检测到开发者",
+			   Content = "检测到 " .. playerName .. (joined and " 已加入。" or " 已在场。"),
+			   Duration = 17.5,
+			   Image = 4483362458,
+			})
+		end
+		local function onPlayerAdded(player)
+			if targetSet[player.Name] then
+				notify(player.Name, true)
+			end
+		end
+		Players.PlayerAdded:Connect(onPlayerAdded)
+		-- 检查已在游戏中的用户
+		for _, player in Players:GetPlayers() do
+			if targetSet[player.Name] then
+				notify(player.Name, false)
+			end
+		end
+   end, -- 切换回调函数的闭合括号
+})
+local Divider = Tab:CreateDivider()
+local LocalToggle = Tab:CreateToggle({
+   Name = "检测血月",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      -- 不知道
+   end,
+})
+-- 检查愤怒值并发送通知的函数
+local function checkAnger()
+   local angerObject = workspace:FindFirstChild("Misc") and
+                        workspace.Misc:FindFirstChild("AI") and
+                        workspace.Misc.AI:FindFirstChild("CHAIN") and
+                        workspace.Misc.AI.CHAIN:FindFirstChild("Anger")
+   if angerObject and angerObject.Value == 105 and LocalToggle.CurrentValue then
+      Rayfield:Notify({
+         Title = "Chain 即将进入血月状态",
+         Content = "检测到 Chain 的愤怒值为 105",
+         Duration = 8,
+         Image = "moon",
+      })
+   end
+end
+-- 如果启用了切换，则定期运行检查（例如，每秒一次）
+game:GetService("RunService").Heartbeat:Connect(function()
+   if LocalToggle.CurrentValue then
+      checkAnger()
+   end
+end)
+local LocalToggle = Tab:CreateToggle({
+   Name = "检测 Chain 的窒息攻击",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      -- 持续检查现在在回调外部处理
+   end,
+})
+-- 检查 ChokeMeter2 并发送通知的函数
+local function checkChokeMeter()
+   local chokeMeterObject = workspace:FindFirstChild("Misc") and
+                            workspace.Misc:FindFirstChild("AI") and
+                            workspace.Misc.AI:FindFirstChild("CHAIN") and
+                            workspace.Misc.AI.CHAIN:FindFirstChild("ChokeMeter")
+   if chokeMeterObject and chokeMeterObject.Value == 85 and LocalToggle.CurrentValue then
+      Rayfield:Notify({
+         Title = "检测到 Chain 的窒息攻击",
+         Content = "Chain 即将使用窒息攻击，他的窒息计量器约为 85",
+         Duration = 8,
+         Image = "bone",
+      })
+   end
+end
+-- 如果启用了切换，则定期运行检查
+game:GetService("RunService").Heartbeat:Connect(function()
+   if LocalToggle.CurrentValue then
+      checkChokeMeter()
+   end
+end)
+local LocalToggle = Tab:CreateToggle({
+   Name = "检测 Chain 的地面重击",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      -- 持续检查在回调外部处理
+   end,
+})
+-- 检查 Burst 值并发送通知的函数
+local function checkGroundslam()
+   local burstObject = workspace:FindFirstChild("Misc") and
+                       workspace.Misc:FindFirstChild("AI") and
+                       workspace.Misc.AI:FindFirstChild("CHAIN") and
+                       workspace.Misc.AI.CHAIN:FindFirstChild("Burst")
+   if burstObject and burstObject.Value == 85 and LocalToggle.CurrentValue then
+      Rayfield:Notify({
+         Title = "检测到 Chain 的地面重击",
+         Content = "Chain 即将使用地面重击，他的地面重击计量器约为 85",
+         Duration = 8,
+         Image = "hammer",
+      })
+   end
+end
+-- 如果启用了切换，则定期运行检查
+game:GetService("RunService").Heartbeat:Connect(function()
+   if LocalToggle.CurrentValue then
+      checkGroundslam()
+   end
+end)
+local Divider = Tab:CreateDivider()
+local Label = Tab:CreateLabel("这些仅解锁蓝图", "printer")
+local Button = Tab:CreateButton({
+   Name = "解锁所有蓝图 - 不起作用，请使用下面的",
+   Callback = function()
+		local player = game.Players.LocalPlayer
+local blueprints = player:WaitForChild("PlayerStats"):WaitForChild("Blueprints")
+for name in blueprints:GetAttributeNames() do
+    blueprints:SetAttribute(name, true)
+end
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "解锁战斗刀",
+   Callback = function()
+		local player = game.Players.LocalPlayer
+local blueprints = player:WaitForChild("PlayerStats"):WaitForChild("Blueprints")
+local attributeName = "CombatKnife"
+if blueprints:GetAttribute(attributeName) ~= nil then
+    blueprints:SetAttribute(attributeName, true)
+    print("属性 '" .. attributeName .. "' 已设置为 true。")
+else
+    print("在蓝图中未找到属性 '" .. attributeName .. "'。")
+end
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "解锁沙漠之鹰",
+   Callback = function()
+		local player = game.Players.LocalPlayer
+local blueprints = player:WaitForChild("PlayerStats"):WaitForChild("Blueprints")
+local attributeName = "Deagle"
+if blueprints:GetAttribute(attributeName) ~= nil then
+    blueprints:SetAttribute(attributeName, true)
+    print("属性 '" .. attributeName .. "' 已设置为 true。")
+else
+    print("在蓝图中未找到属性 '" .. attributeName .. "'。")
+end
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "解锁双管霰弹枪",
+   Callback = function()
+		local player = game.Players.LocalPlayer
+local blueprints = player:WaitForChild("PlayerStats"):WaitForChild("Blueprints")
+local attributeName = "DoubleBarrel"
+if blueprints:GetAttribute(attributeName) ~= nil then
+    blueprints:SetAttribute(attributeName, true)
+    print("属性 '" .. attributeName .. "' 已设置为 true。")
+else
+    print("在蓝图中未找到属性 '" .. attributeName .. "'。")
+end
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "解锁M1911",
+   Callback = function()
+		local player = game.Players.LocalPlayer
+local blueprints = player:WaitForChild("PlayerStats"):WaitForChild("Blueprints")
+local attributeName = "M1911"
+if blueprints:GetAttribute(attributeName) ~= nil then
+    blueprints:SetAttribute(attributeName, true)
+    print("属性 '" .. attributeName .. "' 已设置为 true。")
+else
+    print("在蓝图中未找到属性 '" .. attributeName .. "'。")
+end
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "解锁砍刀",
+   Callback = function()
+		local player = game.Players.LocalPlayer
+local blueprints = player:WaitForChild("PlayerStats"):WaitForChild("Blueprints")
+local attributeName = "Machete"
+if blueprints:GetAttribute(attributeName) ~= nil then
+    blueprints:SetAttribute(attributeName, true)
+    print("属性 '" .. attributeName .. "' 已设置为 true。")
+else
+    print("在蓝图中未找到属性 '" .. attributeName .. "'。")
+end
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "解锁魔法书（可能有问题）",
+   Callback = function()
+		local player = game.Players.LocalPlayer
+local blueprints = player:WaitForChild("PlayerStats"):WaitForChild("Blueprints")
+local attributeName = "SpellBook"
+if blueprints:GetAttribute(attributeName) ~= nil then
+    blueprints:SetAttribute(attributeName, true)
+    print("属性 '" .. attributeName .. "' 已设置为 true。")
+else
+    print("在蓝图中未找到属性 '" .. attributeName .. "'。")
+end
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Button = Tab:CreateButton({
+   Name = "解锁神器任务（可能修复魔法书蓝图）",
+   Callback = function()
+      game.Players.LocalPlayer.PlayerStats.Quests.ArtifactQuest = true
+   -- 按钮按下时执行的函数
+   end,
+})
+local Tab = Window:CreateTab("GUI 界面", "square-terminal")
+local Button = Tab:CreateButton({
+   Name = "手表和电源界面",
+   Callback = function()
+      loadstring(game:HttpGet('https://pastebin.com/raw/9gdApaSy'))()
+   -- 按钮按下时执行的函数
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "收音机界面",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      local player = game.Players.LocalPlayer
+local ingameGui = player:WaitForChild("PlayerGui"):WaitForChild("Ingame")
+local radioFrame = ingameGui:WaitForChild("Radio")
+local titleLabel = radioFrame:WaitForChild("Title"):WaitForChild("TextLabel")
+local isVisible = radioFrame.Visible
+if not isVisible then
+	radioFrame.Visible = true
+	titleLabel.Text = "Spoofed Radio gui by NÃ«onicf"
+	titleLabel.TextStrokeColor3 = Color3.fromRGB(110, 77, 47)
+	radioFrame.BackgroundColor3 = Color3.fromRGB(20, 0, 70)
+else
+	radioFrame.Visible = false
+end
+   -- 按钮按下时执行的函数
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "商店界面",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+      local player = game.Players.LocalPlayer
+local ingameGui = player:WaitForChild("PlayerGui"):WaitForChild("Ingame")
+local Shop = ingameGui:WaitForChild("Shop")
+local isVisible = Shop.Visible
+if not isVisible then
+	Shop.Visible = true
+else
+	Shop.Visible = false
+end
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Label = Tab:CreateLabel("这些界面多少有点没用，解构器和工作台可能无法工作，因为你必须靠近它们", "rewind")
+local Toggle = Tab:CreateToggle({
+   Name = "解构器界面",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+      local player = game.Players.LocalPlayer
+local ingameGui = player:WaitForChild("PlayerGui"):WaitForChild("Ingame")
+local De = ingameGui:WaitForChild("Deconstructor")
+local isVisible = De.Visible
+if not isVisible then
+	De.Visible = true
+else
+	De.Visible = false
+end
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "工作台界面",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+      local player = game.Players.LocalPlayer
+local ingameGui = player:WaitForChild("PlayerGui"):WaitForChild("Ingame")
+local Work = ingameGui:WaitForChild("Workbench")
+local isVisible = Work.Visible
+if not isVisible then
+	Work.Visible = true
+else
+	Work.Visible = false
+end
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Tab = Window:CreateTab("光照", "zap") -- 标题，图像
+local Section = Tab:CreateSection("光照 - 建议两者都使用")
+local Divider = Tab:CreateDivider()
+local Button = Tab:CreateButton({
+   Name = "无雾",
+   Callback = function()
+		-- 服务
+local Lighting = game:GetService("Lighting")
+-- 雾结束位置
+Lighting.FogEnd = 100000
+Lighting:GetPropertyChangedSignal("FogEnd"):Connect(function()
+    Lighting.FogEnd = 100000
+end)
+-- 大气
+for _,v in ipairs(Lighting:GetDescendants()) do
+    if v:IsA("Atmosphere") then
+        v.Density = 0
+        v:GetPropertyChangedSignal("Density"):Connect(function()
+            v.Density = 0
+        end)
+    end
+end
+Lighting.DescendantAdded:Connect(function(v)
+    if v:IsA("Atmosphere") then
+        v.Density = 0
+        v:GetPropertyChangedSignal("Density"):Connect(function()
+            v.Density = 0
+        end)
+    end
+end)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "全亮度",
+   Callback = function()
+		if not _G.FullBrightExecuted then
+	_G.FullBrightEnabled = false
+	_G.NormalLightingSettings = {
+		Brightness = game:GetService("Lighting").Brightness,
+		ClockTime = game:GetService("Lighting").ClockTime,
+		FogEnd = game:GetService("Lighting").FogEnd,
+		GlobalShadows = game:GetService("Lighting").GlobalShadows,
+		Ambient = game:GetService("Lighting").Ambient
+	}
+	game:GetService("Lighting"):GetPropertyChangedSignal("Brightness"):Connect(function()
+		if game:GetService("Lighting").Brightness ~= 1 and game:GetService("Lighting").Brightness ~= _G.NormalLightingSettings.Brightness then
+			_G.NormalLightingSettings.Brightness = game:GetService("Lighting").Brightness
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			game:GetService("Lighting").Brightness = 1
+		end
+	end)
+	game:GetService("Lighting"):GetPropertyChangedSignal("ClockTime"):Connect(function()
+		if game:GetService("Lighting").ClockTime ~= 12 and game:GetService("Lighting").ClockTime ~= _G.NormalLightingSettings.ClockTime then
+			_G.NormalLightingSettings.ClockTime = game:GetService("Lighting").ClockTime
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			game:GetService("Lighting").ClockTime = 12
+		end
+	end)
+	game:GetService("Lighting"):GetPropertyChangedSignal("FogEnd"):Connect(function()
+		if game:GetService("Lighting").FogEnd ~= 786543 and game:GetService("Lighting").FogEnd ~= _G.NormalLightingSettings.FogEnd then
+			_G.NormalLightingSettings.FogEnd = game:GetService("Lighting").FogEnd
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			game:GetService("Lighting").FogEnd = 786543
+		end
+	end)
+	game:GetService("Lighting"):GetPropertyChangedSignal("GlobalShadows"):Connect(function()
+		if game:GetService("Lighting").GlobalShadows ~= false and game:GetService("Lighting").GlobalShadows ~= _G.NormalLightingSettings.GlobalShadows then
+			_G.NormalLightingSettings.GlobalShadows = game:GetService("Lighting").GlobalShadows
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			game:GetService("Lighting").GlobalShadows = false
+		end
+	end)
+	game:GetService("Lighting"):GetPropertyChangedSignal("Ambient"):Connect(function()
+		if game:GetService("Lighting").Ambient ~= Color3.fromRGB(178, 178, 178) and game:GetService("Lighting").Ambient ~= _G.NormalLightingSettings.Ambient then
+			_G.NormalLightingSettings.Ambient = game:GetService("Lighting").Ambient
+			if not _G.FullBrightEnabled then
+				repeat
+					wait()
+				until _G.FullBrightEnabled
+			end
+			game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+		end
+	end)
+	game:GetService("Lighting").Brightness = 1
+	game:GetService("Lighting").ClockTime = 12
+	game:GetService("Lighting").FogEnd = 786543
+	game:GetService("Lighting").GlobalShadows = false
+	game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+	local LatestValue = true
+	spawn(function()
+		repeat
+			wait()
+		until _G.FullBrightEnabled
+		while wait() do
+			if _G.FullBrightEnabled ~= LatestValue then
+				if not _G.FullBrightEnabled then
+					game:GetService("Lighting").Brightness = _G.NormalLightingSettings.Brightness
+					game:GetService("Lighting").ClockTime = _G.NormalLightingSettings.ClockTime
+					game:GetService("Lighting").FogEnd = _G.NormalLightingSettings.FogEnd
+					game:GetService("Lighting").GlobalShadows = _G.NormalLightingSettings.GlobalShadows
+					game:GetService("Lighting").Ambient = _G.NormalLightingSettings.Ambient
+				else
+					game:GetService("Lighting").Brightness = 1
+					game:GetService("Lighting").ClockTime = 12
+					game:GetService("Lighting").FogEnd = 786543
+					game:GetService("Lighting").GlobalShadows = false
+					game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+				end
+				LatestValue = not LatestValue
+			end
+		end
+	end)
+end
+_G.FullBrightExecuted = true
+_G.FullBrightEnabled = not _G.FullBrightEnabled
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Button = Tab:CreateButton({
+   Name = "着色器 - PShade",
+   Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/randomstring0/pshade-ultimate/refs/heads/main/src/cd.lua'))()
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Tab = Window:CreateTab("自动农场", "feather") -- 标题，图像
+local Toggle = Tab:CreateToggle({
+   Name = "自动收集废料",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/BongCloudMaster/CHAIN/main/scrapcollector.lua"))()
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Paragraph = Tab:CreateParagraph({Title = "预告", Content = "我很快会添加神器自动农场"})
+local Tab = Window:CreateTab("ESP - 第六感", "telescope") -- 标题，图像
+local Button = Tab:CreateButton({
+   Name = "chain 信息 ESP",
+   Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/BongCloudMaster/CHAIN/main/chain%20esp.lua"))()
+   -- 按钮按下时执行的函数
+   end,
+})
+local Toggle = Tab:CreateToggle({
+   Name = "Chain ESP - 红色",
+   CurrentValue = false,
+   Flag = "Toggle1", -- 标志是配置文件的标识符，如果你使用配置保存，请确保每个元素都有不同的标志，以确保没有重叠
+   Callback = function(Value)
+		-- 简单高亮脚本
+-- 由 alan.nguyen.12 制作（由 Neon 修复 ðŸ—£ï¸ ðŸ”¥{好吧但实际上都是我做的 - Neon}）
+-- chain 的 chain esp
+local partToHighlight = workspace.Misc.AI.CHAIN -- 将 "MyPart" 替换为你的零件名称
+local highlight = Instance.new("Highlight")
+highlight.Parent = partToHighlight
+highlight.FillColor = Color3.fromRGB(255, 21, 21) -- 红色
+highlight.OutlineColor = Color3.fromRGB(255, 255, 255) -- 黑色
+highlight.FillTransparency = 0.60
+highlight.OutlineTransparency = 0
+   -- 切换按下时执行的函数
+   -- 变量 (Value) 是一个布尔值，表示切换是否为 true 或 false
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "废料 ESP - 不是我的",
+   Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/BongCloudMaster/CHAIN/main/scrap%20esp.lua"))()
+   -- 按钮按下时执行的函数
+   end,
+})
+local Tab = Window:CreateTab("传送 - 位置", "drafting-compass") -- 标题，图像
+local Section = Tab:CreateSection("我猜这很快会被修复 - 因为地图很快会更新")
+local Divider = Tab:CreateDivider()
+local Button = Tab:CreateButton({
+   Name = "安全屋",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(162.680023, -94.2610092, 230.036407, 0.999293089, -1.40679939e-08, 0.0375940055, 1.348163e-08, 1, 1.58507891e-08, -0.0375940055, -1.53327555e-08, 0.999293089)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = " workshop 外部",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(130.923874, -106.07193, -2.17581439, 0.507446766, -0.859753072, -0.0576408654, 0.767467797, 0.481365085, -0.42341572, 0.391779244, 0.170623437, 0.904099941)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "workshop 内部",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(169.560654, -103.651337, -30.0143433, 0.262320459, 1.83968858e-08, -0.964980841, 9.02348959e-11, 1, 1.90890379e-08, 0.964980841, -5.09452036e-09, 0.262320459)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "小木屋内部",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-324.801575, -88.6199799, 290.675598, 0.451050401, 1.02070366e-07, -0.892498493, -2.45230627e-08, 1, 1.01971303e-07, 0.892498493, -2.41073987e-08, 0.451050401)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "商店",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-111.376678, -87.2069778, 203.522934, -0.851789057, -5.88233995e-08, 0.523884892, -1.06661249e-08, 1, 9.49409156e-08, -0.523884892, 7.5281811e-08, -0.851789057)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "发电站",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-208.299744, -110.604126, -120.227615, 0.994857252, -4.01115097e-09, 0.101287208, 1.21101742e-08, 1, -7.9346087e-08, -0.101287208, 8.01646323e-08, 0.994857252)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "仓库",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(314.623566, -113.515549, -258.481567, 0.99898839, 1.88050908e-08, -0.0449683107, -1.91088674e-08, 1, -6.32548991e-09, 0.0449683107, 7.17838455e-09, 0.99898839)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "仪式场所",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-18.6015053, -107.779076, -229.89505, 0.924807549, -7.74951925e-09, -0.380435318, -1.76391968e-09, 1, -2.46580836e-08, 0.380435318, 2.34750388e-08, 0.924807549)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "排行榜",
+   Callback = function()
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(45.6568947, -97.9687805, 352.514221, -0.99593854, -2.09143503e-09, -0.0900359452, 1.3530822e-09, 1, -3.81960987e-08, 0.0900359452, -3.8162792e-08, -0.99593854)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "无线电塔",
+   Callback = function()
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-402.222595, -112.368164, 44.1699409, 0.0451246351, -1.07376825e-14, -0.998981357, -6.33584847e-08, 1, -2.86195445e-09, 0.998981357, 6.34230872e-08, 0.0451246351)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "传送到地图外 - 安全",
+   Callback = function()
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(39.0608749, -99.1718979, 574.259521, 0.907835662, 7.08418568e-08, -0.419326216, -3.53907694e-08, 1, 9.23215708e-08, 0.419326216, -6.89725326e-08, 0.907835662)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Tab = Window:CreateTab("动画记录器", "folder-archive") -- 标题，图像
+local Label = Tab:CreateLabel("试试这些有两个玩家的动画，和朋友一起！要做到这一点，直接站在彼此的头顶上（基本上是完全相同的位置）然后播放", "contact")
+local Label = Tab:CreateLabel("趣闻：如果你手里拿着 Xsaw 并使用 xsaw 动画，动画中也会使用 xsaw，战斗刀也是如此", "axe")
+local Section = Tab:CreateSection("XSaw 互动动画")
+local Button = Tab:CreateButton({
+   Name = "Chain开始",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local chainStartAnimation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("XSawInteraction"):WaitForChild("ChainStart")
+-- 播放动画
+playAnimation(chainStartAnimation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "玩家开始",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("XSawInteraction"):WaitForChild("PlayerStart")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Chain玩家胜利",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("XSawInteraction"):WaitForChild("ChainPlayerWin")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Chain玩家失败",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("XSawInteraction"):WaitForChild("ChainPlayerLose")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "玩家失败",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("XSawInteraction"):WaitForChild("PlayerLose")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "玩家胜利",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("XSawInteraction"):WaitForChild("PlayerWin")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Section = Tab:CreateSection("XSaw拯救动画")
+local Button = Tab:CreateButton({
+   Name = "Chain",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("XSawSave"):WaitForChild("Chain")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "玩家",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("XSawSave"):WaitForChild("Player")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Section = Tab:CreateSection("战斗刀动画")
+local Button = Tab:CreateButton({
+   Name = "刀处决玩家 - 血月相关",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("KnifeExecutionPlayer")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "反击处决Chain - 当你使用战斗刀时Chain试图杀死你",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("CounterExecutionChain")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "反击处决玩家",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("CounterExecutionPlayer")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Section = Tab:CreateSection("血月动画")
+local Button = Tab:CreateButton({
+   Name = "血月处决Chain",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("HallowChain"):WaitForChild("BloodmoonExecutionChain")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "血月处决受害者",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("HallowChain"):WaitForChild("BloodmoonExecutionVictim")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "血月变身Chain",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("HallowChain"):WaitForChild("BloodmoonTransformChain")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "血月变身ChainBM",
+   Callback = function()
+		local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("HallowChain"):WaitForChild("BloodmoonTransformChainBM")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Section = Tab:CreateSection("窒息动画")
+local Button = Tab:CreateButton({
+   Name = "Chain窒息失败",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("Choke"):WaitForChild("ChainChokeLose")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Chain窒息开始",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("Choke"):WaitForChild("ChainChokeStart")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Chain窒息挥舞",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("Choke"):WaitForChild("ChainChokeSwing")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Chain窒息胜利",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("Choke"):WaitForChild("ChainChokeWin")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "玩家窒息失败",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("Choke"):WaitForChild("PlayerChokeLose")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "玩家窒息开始",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("Choke"):WaitForChild("PlayerChokeStart")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "玩家窒息胜利",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainEssentials"):WaitForChild("Choke"):WaitForChild("PlayerChokeWin")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Section = Tab:CreateSection("开场动画（在开始时）")
+local Button = Tab:CreateButton({
+   Name = "玩家",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("Intro"):WaitForChild("Player")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "出拳者",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("Intro"):WaitForChild("Puncher")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "拖拽者",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("Intro"):WaitForChild("Dragger")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "乘客",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("Intro"):WaitForChild("Passenger")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "司机",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("Intro"):WaitForChild("Driver")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Divider = Tab:CreateDivider()
+local Section = Tab:CreateSection("一些Chain动画")
+local Button = Tab:CreateButton({
+   Name = "Chain生成",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("ChainSpawn")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "Chain消失",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("DespawnChain")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "仪式消失",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("DespawnRitual")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "冲锋",
+   Callback = function()
+      local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local localPlayer = Players.LocalPlayer
+local function playAnimation(animationObject)
+    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local animator = humanoid:WaitForChild("Animator")
+    local animationTrack = animator:LoadAnimation(animationObject)
+    animationTrack:Play()
+    -- 你可能想添加一种稍后停止动画的方法
+end
+-- 使用正确的路径在 ReplicatedStorage 中找到动画对象
+local Animation = ReplicatedStorage:WaitForChild("GameStuff"):WaitForChild("Animations"):WaitForChild("Charge")
+-- 播放动画
+playAnimation(Animation)
+   -- 按钮按下时执行的函数
+   end,
+})
+local Tab = Window:CreateTab("教程", "file-input") -- 标题，图像
+local Paragraph = Tab:CreateParagraph({Title = "如何获得无限XSaw汽油 - 除非我设置的按钮不起作用，否则你不再需要这样做", Content = "你需要执行dex，由于反作弊会检测dex，所以执行infinite yield并在其中输入dex命令，然后你需要前往workspace.YourUser.Items.Xsaw，打开属性面板，它应该会显示汽油，你需要先将汽油降至0，然后一旦达到0，将其设置为100，这样你就有无限汽油了"})
+ local Paragraph = Tab:CreateParagraph({Title = "v2如何获得无限耐力 - 由于我制作了按钮，你不再需要这样做", Content = "你需要打开一个执行器，你需要输入，while true do workspace.usernamehere.Stats.Stamina.Value = 100 wait(1) end | 第一行输入While true do | 然后第二行按Tab键后输入 workspace.Youruser.Stats.Stamina.Value = 100 | 第三行按两次Tab键后输入 wait(1) | 最后第四行输入end，并且E要与wait中的W对齐，抱歉这可能有点混乱，我很快会放一个YT教程，另外将我说的userhere替换为你实际的roblox用户名，否则不起作用"})
+local Tab = Window:CreateTab("更新", "bell-plus") -- 标题，图像
+local Paragraph = Tab:CreateParagraph({Title = "1.0.0更新脚本发布", Content = "第一个版本的脚本发布，免费且无需密钥"})
+local Paragraph = Tab:CreateParagraph({Title = "1.0.1小更新", Content = "添加了耐力教程v2，修复了传送中ritual的拼写错误，更改了加载文本，将名称从XChain改为XCHain，添加了无线电塔传送，将一些不是真正切换的切换修复为按钮，但不是全部，因为我计划将它们改为切换，将CHAIN信息移至ESP而不是主标签页| 注意：如果你想知道为什么我制作教程而不是按钮，是因为我很难获取本地角色名称。抱歉解释得不好"})
+local Paragraph = Tab:CreateParagraph({Title = "1.3.1中小更新", Content = "添加了无限耐力和战斗耐力按钮/切换，添加了自定义主题以突出显示，添加了单独的光照标签页，开启第三人称时移除头上的袋子，CHAIN躯干碰撞箱扩展器beta，游戏中所有枪支的无限弹药按钮但沙漠之鹰可能不起作用，添加了XSaw无限汽油但可能不起作用因为你可能需要先将汽油降至0，将角色配置说明中的most改为some，添加了主题标签页如果你不喜欢我制作的这个，预告：动画记录器有99.9%的可能是下一个更新，除非出问题，我可能会让切换真正起作用"})
+local Paragraph = Tab:CreateParagraph({Title = "1.4.2大中小更新", Content = "添加了在游戏中给你蓝图的脚本，在动画记录器标签页添加了动画，在主标签页添加了穿墙脚本，添加了一个包含大量内容的新其他频道，在其他标签页添加了危险用户检测，添加了一个将你传送到地图外的新传送点以确保你的安全，在主标签页添加了显示discord邀请的文本标签，将碰撞箱大小从6,6,6改为3,3,3，碰撞箱可能仍然损坏因为我没有测试过，在更新标签页添加了1.4.2的段落，哈哈我不知道:L"})
+local Paragraph = Tab:CreateParagraph({Title = "2.5.2大规模-主要-次要更新", Content = "在其他标签页添加了Chain的检测如果他达到特定的 stats，修复了角色配置标签页中的无限闪避，在角色配置中添加了自动瞄准，添加了一个GUI标签页，添加了收音机GUI、商店GUI、解构器GUI、手表/电源GUI等，添加了一个移除Adonis反作弊的脚本，在脚本中添加了更多图像，修复了脚本在某些执行器上无法执行的问题，在配置中添加了绕过捕熊器放置的功能，制作了一个将discord链接复制到剪贴板的按钮，由于某些无限弹药已被修复而移除了它们，修复了脚本中的一些错误，在动画记录器中添加了更多动画，在配置标签页添加了移动速度，添加了一个完整的单独的第一章脚本，包含ESP、传送、欺骗等。如果你读完了所有这些，感谢你真的阅读了:P"})
+local Tab = Window:CreateTab(" credits", "copyright") -- 标题，图像
+local Paragraph = Tab:CreateParagraph({Title = "NÃ«onicf/Notezfc", Content = "创建了整个GUI和脚本并通过更新进行管理，制作了除Alco制作的一些之外的所有脚本，Discord用户：neonthemasked - 如有任何错误或问题或需要帮助请私信我 - iOS脚本师 - 使用Cryptic/Codex/Krnl iOS"})
+local Paragraph = Tab:CreateParagraph({Title = "Alan", Content = "帮助测试东西并发现了无限XSaw汽油+弹药（neon编写了它们的脚本），帮助制作了CHAIN esp高亮 - Windows脚本师 - 使用JJSPloit/Xeno"})
+local Paragraph = Tab:CreateParagraph({Title = "Alco", Content = "制作了免费源脚本如chain信息、废料esp、废料自动农场和无限闪避"})
+local Tab = Window:CreateTab("主题", "cloud-fog")
+local Section = Tab:CreateSection("如果你不喜欢我制作的主题/重新执行如果你想要原始主题回来并且还要销毁UI")
+local Divider = Tab:CreateDivider()
+local Button = Tab:CreateButton({
+   Name = "默认",
+   Callback = function()
+		Window.ModifyTheme('Default')
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "琥珀光芒",
+   Callback = function()
+		Window.ModifyTheme('AmberGlow')
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "紫水晶",
+   Callback = function()
+		Window.ModifyTheme('Amethyst')
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "绽放",
+   Callback = function()
+		Window.ModifyTheme('Bloom')
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "深蓝色",
+   Callback = function()
+		Window.ModifyTheme('DarkBlue')
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "绿色",
+   Callback = function()
+		Window.ModifyTheme('Green')
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "明亮",
+   Callback = function()
+		Window.ModifyTheme('Light')
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "海洋",
+   Callback = function()
+		Window.ModifyTheme('Ocean')
+   -- 按钮按下时执行的函数
+   end,
+})
+local Button = Tab:CreateButton({
+   Name = "宁静",
+   Callback = function()
+		Window.ModifyTheme('Serenity')
+   -- 按钮按下时执行的函数
+   end,
+})
