@@ -174,7 +174,7 @@ do
         data.BackgroundTransparency = 1
         data.Font = Enum.Font.Nunito
         data.Size = UDim2.new(1, 0, 0, 14)
-        data.Text = "[[0] [愤怒值 : 0%] [爆发值: 0%] [窒息值: 100%] [防御值: 0%]"
+        data.Text = "[0] [愤怒值 : 0%] [爆发值: 0%] [窒息值: 100%] [防御值: 0%]"
         data.TextSize = 12
         data.TextStrokeTransparency = 0.5
         listlayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
