@@ -2,8 +2,8 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
    Name = "chain脚本作者小达",
    Icon = 16310770488, -- 顶部栏图标。可使用 Lucide 图标（字符串）或 Roblox 图像（数字）。0 表示不使用图标（默认）。
-   LoadingTitle = "Chain when he hears about chainmail armor",
-   LoadingSubtitle = "by Neonicf/Notezfc & Alan",
+   LoadingTitle = "感谢你的使用",
+   LoadingSubtitle = "作者小达",
    Theme = {
     TextColor = Color3.fromRGB(143, 46, 62),
     Background = Color3.fromRGB(3, 2, 2),
@@ -43,12 +43,12 @@ local Window = Rayfield:CreateWindow({
    ConfigurationSaving = {
       Enabled = true,
       FolderName = XCHain, -- 为你的 hub/游戏创建一个自定义文件夹
-      FileName = "Chain script - Made by Neonicf, an ios user"
+      FileName = "Chain 脚本由小达制作 "
    },
    Discord = {
-      Enabled = true, -- 如果用户的执行器支持，提示用户加入你的 Discord 服务器
-      Invite = "UG7bH5QUVA", -- Discord 邀请码，不要包含 discord.gg/。例如：discord.gg/ABCD 应写为 ABCD
-      RememberJoins = true -- 设置为 false 可让用户每次加载时都加入 Discord
+      Enabled = true, -- 如果用户的执行器支持，提示用户加入你的QQ群705257336
+      Invite = "705257336", -- QQ群705257336
+      RememberJoins = true -- 设置为 false 可让用户每次加载时都加入 QQ群705257336
    },
    KeySystem = false, -- 设置为 true 以使用我们的密钥系统
    KeySettings = {
