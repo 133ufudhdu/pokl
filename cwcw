@@ -4,54 +4,46 @@ local UserInputService = game:GetService("UserInputService")
 local VirtualInputManager = game:GetService("VirtualInputManager")
 local Workspace = game:GetService("Workspace")
 
+local StellarLibrary = (loadstring(Game:HttpGet("https://raw.githubusercontent.com/Potato5466794/GC-WTB/refs/heads/main/UI/WTB-UI.luau")))();
+if StellarLibrary:LoadAnimation() then
+    StellarLibrary:StartLoad();
+end;
+if StellarLibrary:LoadAnimation() then
+    StellarLibrary:Loaded();
+end;
+
+local Window = StellarLibrary:Window({
+    SubTitle = "战斗勇士 | 自动招架",
+    Size = UserInputService.TouchEnabled and UDim2.new(0, 500, 0, 350) or UDim2.new(0, 500, 0, 320),
+    TabWidth = 140
+})
+
+local Information = Window:Tab("信息", "rbxassetid://128891143813807");
+local General = Window:Tab("主要", "rbxassetid://10723407389");
+local Tab3 = Window:Tab("刷取", "rbxassetid://10723415335");
+local Tab4 = Window:Tab("物品", "rbxassetid://10709782497");
+local Tab5 = Window:Tab("设置", "rbxassetid://10734950309");
+local Tab6 = Window:Tab("本地玩家", "rbxassetid://10747373176");
+local Tab7 = Window:Tab("持有技能", "rbxassetid://10734984606");
+local Settings = Window:Tab("设置", "rbxassetid://98216376967992");
+local AutoParryTab = Window:Tab("自动招架", "rbxassetid://10709782497");
+
 local player = Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 local hrp = char:WaitForChild("HumanoidRootPart")
 local hum = char:FindFirstChildWhichIsA("Humanoid")
 local charsFolder = Workspace:FindFirstChild("PlayerCharacters") or Workspace:WaitForChild("PlayerCharacters", 10)
 
-local StellarLibrary
-pcall(function()
-    StellarLibrary = (loadstring(Game:HttpGet("https://raw.githubusercontent.com/Potato5466794/GC-WTB/refs/heads/main/UI/WTB-UI.luau")))()
-    if StellarLibrary:LoadAnimation() then
-        StellarLibrary:StartLoad()
-        task.wait(0.3)
-        StellarLibrary:Loaded()
-    end
-end)
-if not StellarLibrary then warn("UI加载失败，自动招架功能仍可通过F1开关控制") end
-
-local Window
-if StellarLibrary then
-    Window = StellarLibrary:Window({
-        SubTitle = "战斗勇士自动招架",
-        Size = UserInputService.TouchEnabled and UDim2.new(0, 420, 0, 280) or UDim2.new(0, 450, 0, 260),
-        TabWidth = 120
-    })
-    local Tab_Parry = Window:Tab("自动招架", "rbxassetid://10709782497")
-    local Tab_Info = Window:Tab("功能说明", "rbxassetid://128891143813807")
-end
-
-local vars = {
+local parryConfig = {
+    Enabled = false,
     ParryKey = Enum.KeyCode.F,
-    ParryEnabled = false,
-    ParryEquip = false
-}
-local parrySettings = {
     Range = 11,
     Prediction = 1.5,
-    Chance = 85
+    Chance = 85,
+    AutoEquipWeapon = false
 }
-local conns = { ParryCheck = nil }
 local parryTargets = {}
-
-local function sendNotify(title, content, duration)
-    if StellarLibrary then
-        StellarLibrary:Notify(title .. " | " .. content, duration or 2.5)
-    else
-        print(title .. ": " .. content)
-    end
-end
+local parryConnections = { Check = nil }
 
 local function keyPress(key)
     task.wait(math.random(1, 3)/100)
@@ -70,7 +62,7 @@ local function findTool(oChar)
     return model:FindFirstChildWhichIsA("ObjectValue").Value, false
 end
 
-local function deleteParryFromTable(oChar)
+local function removeParryTarget(oChar)
     if parryTargets[oChar] then
         if typeof(parryTargets[oChar]) == "RBXScriptConnection" then
             parryTargets[oChar]:Disconnect()
@@ -79,184 +71,154 @@ local function deleteParryFromTable(oChar)
     end
 end
 
-local function findOthersInRadius()
+local function findEnemiesInRange()
     for _, oChar in pairs(charsFolder:GetChildren()) do
         if oChar.Name ~= char.Name and oChar:FindFirstChild("HumanoidRootPart") and oChar:FindFirstChild("Humanoid") then
-            local mag = (oChar.HumanoidRootPart.Position - hrp.Position).Magnitude
-            if mag <= 25 and mag > 0 and not parryTargets[oChar] then
+            local distance = (oChar.HumanoidRootPart.Position - hrp.Position).Magnitude
+            if distance <= 25 and distance > 0 and not parryTargets[oChar] then
                 parryTargets[oChar] = false
-            elseif mag > 25 and parryTargets[oChar] then
-                deleteParryFromTable(oChar)
+            elseif distance > 25 and parryTargets[oChar] then
+                removeParryTarget(oChar)
             end
         end
     end
 end
 
-local function CreateOffsetPart(oChar)
+local function getPredictedPos(oChar)
     local oHrp = oChar.HumanoidRootPart
-    local oHum = oChar.Humanoid
-    local moveDir = oHum.MoveDirection.Unit
-    return moveDir.Magnitude == 0 and oHrp.Position or oHrp.Position + (moveDir * parrySettings.Prediction)
+    local moveDir = oChar.Humanoid.MoveDirection.Unit
+    return moveDir.Magnitude == 0 and oHrp.Position or oHrp.Position + (moveDir * parryConfig.Prediction)
 end
 
-local function Parry(oChar)
+local function doParry(oChar)
     if string.match(oChar.Name, "Inf3r") then
-        sendNotify("提示", "无法招架作者角色", 2)
+        StellarLibrary:Notify("提示：无法招架作者角色", 2)
         return
     end
-    if math.random(0, 100) > parrySettings.Chance then return end
-    local offset = CreateOffsetPart(oChar)
-    local mag = (offset - hrp.Position).Magnitude
-    if mag <= parrySettings.Range then
-        if vars.ParryEquip then
+    if math.random(0, 100) > parryConfig.Chance then return end
+    
+    local predictedPos = getPredictedPos(oChar)
+    local distance = (predictedPos - hrp.Position).Magnitude
+    if distance <= parryConfig.Range then
+        if parryConfig.AutoEquipWeapon then
             local myTool, equipped = findTool(char)
             if not equipped and myTool then
                 task.wait(math.random(5, 8)/100)
                 hum:EquipTool(myTool)
             end
         end
-        keyPress(vars.ParryKey)
-        sendNotify("招架成功", "检测到敌方攻击", 2)
+        keyPress(parryConfig.ParryKey)
+        StellarLibrary:Notify("招架成功：检测到敌方攻击", 2)
     end
 end
 
-if StellarLibrary and Window then
-    local Tab_Parry = Window:Tabs("自动招架")
-    local Tab_Info = Window:Tabs("功能说明")
-
-    Tab_Parry:Seperator("基础设置")
-    local ParryToggle = Tab_Parry:Toggle("开启自动招架", {"开启", "关闭"}, "F键触发，检测范围" .. parrySettings.Range .. "studs", function(selected)
-        local isEnabled = selected == 1
-        vars.ParryEnabled = isEnabled
-        if isEnabled then
-            if conns.ParryCheck then conns.ParryCheck:Disconnect() end
-            conns.ParryCheck = RunService.RenderStepped:Connect(function()
-                if not char or not hrp then return end
-                findOthersInRadius()
-                for oChar, state in pairs(parryTargets) do
-                    if state == false then
-                        parryTargets[oChar] = true
-                        local tool = findTool(oChar)
-                        if tool then
-                            parryTargets[oChar] = tool.DescendantAdded:Connect(function(desc)
-                                if desc:IsA("BasePart") or desc:IsA("Attachment") then
-                                    Parry(oChar)
-                                end
-                            end)
-                        else
-                            deleteParryFromTable(oChar)
-                        end
+local function toggleAutoParry(enabled)
+    parryConfig.Enabled = enabled
+    if enabled then
+        if parryConnections.Check then
+            parryConnections.Check:Disconnect()
+            parryConnections.Check = nil
+        end
+        parryConnections.Check = RunService.RenderStepped:Connect(function()
+            if not char or not hrp then return end
+            findEnemiesInRange()
+            for oChar, state in pairs(parryTargets) do
+                if state == false then
+                    parryTargets[oChar] = true
+                    local enemyTool = findTool(oChar)
+                    if enemyTool then
+                        parryTargets[oChar] = enemyTool.DescendantAdded:Connect(function(desc)
+                            if desc:IsA("BasePart") or desc:IsA("Attachment") then
+                                doParry(oChar)
+                            end
+                        end)
+                    else
+                        removeParryTarget(oChar)
                     end
                 end
-            end)
-            sendNotify("功能状态", "自动招架已开启", 3)
-        else
-            if conns.ParryCheck then
-                conns.ParryCheck:Disconnect()
-                conns.ParryCheck = nil
             end
-            for oChar in pairs(parryTargets) do
-                deleteParryFromTable(oChar)
-            end
-            sendNotify("功能状态", "自动招架已关闭", 3)
+        end)
+        StellarLibrary:Notify("自动招架已开启", 3)
+    else
+        if parryConnections.Check then
+            parryConnections.Check:Disconnect()
+            parryConnections.Check = nil
         end
-    end)
-
-    Tab_Parry:Slider("招架概率", 50, 100, parrySettings.Chance, function(value)
-        parrySettings.Chance = value
-        sendNotify("设置更新", "招架概率：" .. value .. "%", 2)
-    end)
-
-    Tab_Parry:Slider("触发距离", 5, 15, parrySettings.Range, function(value)
-        parrySettings.Range = value
-        sendNotify("设置更新", "触发距离：" .. value .. " studs", 2)
-    end)
-
-    Tab_Parry:Slider("移动预判", 0, 3, parrySettings.Prediction, function(value)
-        parrySettings.Prediction = value
-        sendNotify("设置更新", "移动预判：" .. value, 2)
-    end)
-
-    Tab_Parry:Toggle("自动装备武器", {"开启", "关闭"}, "招架时自动装备武器（谨慎开启）", function(selected)
-        vars.ParryEquip = selected == 1
-        sendNotify("设置更新", "自动装备武器：" .. (vars.ParryEquip and "开启" or "关闭"), 2)
-    end)
-
-    Tab_Info:Seperator("使用提示")
-    Tab_Info:Label("1. 建议招架概率设为80%-90%")
-    Tab_Info:Label("2. 触发距离不超过12 studs更安全")
-    Tab_Info:Label("3. 移动预判建议1-2，避免异常")
-    Tab_Info:Label("4.  UI加载失败时，按F1开关功能")
+        for oChar in pairs(parryTargets) do
+            removeParryTarget(oChar)
+        end
+        StellarLibrary:Notify("自动招架已关闭", 3)
+    end
 end
 
-UserInputService.InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.F1 then
-        vars.ParryEnabled = not vars.ParryEnabled
-        if vars.ParryEnabled then
-            if conns.ParryCheck then conns.ParryCheck:Disconnect() end
-            conns.ParryCheck = RunService.RenderStepped:Connect(function()
-                if not char or not hrp then return end
-                findOthersInRadius()
-                for oChar, state in pairs(parryTargets) do
-                    if state == false then
-                        parryTargets[oChar] = true
-                        local tool = findTool(oChar)
-                        if tool then
-                            parryTargets[oChar] = tool.DescendantAdded:Connect(function(desc)
-                                if desc:IsA("BasePart") then
-                                    Parry(oChar)
-                                end
-                            end)
-                        else
-                            deleteParryFromTable(oChar)
-                        end
-                    end
-                end
-            end)
-            sendNotify("备用开关", "自动招架已开启", 3)
-        else
-            if conns.ParryCheck then
-                conns.ParryCheck:Disconnect()
-                conns.ParryCheck = nil
-            end
-            for oChar in pairs(parryTargets) do
-                deleteParryFromTable(oChar)
-            end
-            sendNotify("备用开关", "自动招架已关闭", 3)
-        end
+AutoParryTab:Seperator("核心设置")
+
+AutoParryTab:Toggle("自动招架开关", {"开启", "关闭"}, "开启后自动检测敌方攻击并按F键招架", function(selected)
+    toggleAutoParry(selected == 1)
+end)
+
+AutoParryTab:Slider("招架概率", 50, 100, parryConfig.Chance, function(value)
+    parryConfig.Chance = value
+    StellarLibrary:Notify("招架概率已设为：" .. value .. "%", 2)
+end)
+
+AutoParryTab:Slider("触发距离", 5, 15, parryConfig.Range, function(value)
+    parryConfig.Range = value
+    StellarLibrary:Notify("触发距离已设为：" .. value .. " studs", 2)
+end)
+
+AutoParryTab:Slider("移动预判", 0, 3, parryConfig.Prediction, function(value)
+    parryConfig.Prediction = value
+    StellarLibrary:Notify("移动预判已设为：" .. value, 2)
+end)
+
+AutoParryTab:Toggle("自动装备武器", {"开启", "关闭"}, "招架时自动装备手中武器（谨慎开启）", function(selected)
+    parryConfig.AutoEquipWeapon = selected == 1
+    StellarLibrary:Notify("自动装备武器：" .. (parryConfig.AutoEquipWeapon and "开启" or "关闭"), 2)
+end)
+
+Information:Seperator("公告")
+Information:Label("自动招架功能说明：")
+Information:Label("1. 建议概率设为80%-90%，避免异常")
+Information:Label("2. 触发距离不超过12 studs更安全")
+Information:Label("3. 移动预判建议1-2，贴近手动操作")
+
+General:Seperator("主要")
+local GameTimeLabel = General:Label("游戏时间：0时0分0秒")
+local FpsLabel = General:Label("帧率：0 FPS")
+local PingLabel = General:Label("延迟：0 ms")
+
+spawn(function()
+    while task.wait(1) do
+        pcall(function()
+            local gameTime = math.floor(Workspace.DistributedGameTime + 0.5)
+            local hour = math.floor(gameTime / 3600) % 24
+            local minute = math.floor(gameTime / 60) % 60
+            local second = gameTime % 60
+            GameTimeLabel:Set("游戏时间：" .. hour .. "时" .. minute .. "分" .. second .. "秒")
+            
+            local fps = math.floor(Workspace:GetRealPhysicsFPS())
+            FpsLabel:Set("帧率：" .. fps .. " FPS")
+            
+            local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
+            PingLabel:Set("延迟：" .. ping)
+        end)
     end
+end)
+
+General:Button("复制 Discord 链接", function()
+    setclipboard("https://discord.gg/FmMuvkaWvG")
+    StellarLibrary:Notify("已复制 Discord 链接", 3)
 end)
 
 player.CharacterAdded:Connect(function(newChar)
     char = newChar
     hrp = char:WaitForChild("HumanoidRootPart")
     hum = char:FindFirstChildWhichIsA("Humanoid")
-    if vars.ParryEnabled and not conns.ParryCheck then
-        conns.ParryCheck = RunService.RenderStepped:Connect(function()
-            if not char or not hrp then return end
-            findOthersInRadius()
-            for oChar, state in pairs(parryTargets) do
-                if state == false then
-                    parryTargets[oChar] = true
-                    local tool = findTool(oChar)
-                    if tool then
-                        parryTargets[oChar] = tool.DescendantAdded:Connect(function(desc)
-                            if desc:IsA("BasePart") then
-                                Parry(oChar)
-                            end
-                        end)
-                    else
-                        deleteParryFromTable(oChar)
-                    end
-                end
-            end
-        end)
-        sendNotify("角色重生", "自动招架已恢复", 2)
+    if parryConfig.Enabled and not parryConnections.Check then
+        toggleAutoParry(true)
+        StellarLibrary:Notify("角色重生，自动招架已恢复", 2)
     end
 end)
 
-if StellarLibrary then
-    sendNotify("加载完成", "点击自动招架标签页设置功能", 4)
-else
-    sendNotify("加载提示", "UI加载失败，按F1开关自动招架", 4)
-end
+StellarLibrary:Notify("自动招架功能加载完成，点击「自动招架」标签页设置", 5)
