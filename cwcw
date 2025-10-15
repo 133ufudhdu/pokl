@@ -121,8 +121,8 @@ local function Parry(oChar)
 end
 
 if StellarLibrary and Window then
-    local Tab_Parry = Window:Tabs["自动招架"]
-    local Tab_Info = Window:Tabs["功能说明"]
+    local Tab_Parry = Window:Tabs("自动招架")
+    local Tab_Info = Window:Tabs("功能说明")
 
     Tab_Parry:Seperator("基础设置")
     local ParryToggle = Tab_Parry:Toggle("开启自动招架", {"开启", "关闭"}, "F键触发，检测范围" .. parrySettings.Range .. "studs", function(selected)
