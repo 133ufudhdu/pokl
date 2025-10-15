@@ -1,0 +1,345 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Lighting = game:GetService("Lighting")
+local TweenService = game:GetService("TweenService")
+
+local player = Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+local hum = char:FindFirstChildWhichIsA("Humanoid")
+local charsFolder = Workspace:WaitForChild("PlayerCharacters", 20)
+local currGravity = Workspace.Gravity
+
+local StellarLibrary = (loadstring(Game:HttpGet("https://raw.githubusercontent.com/Potato5466794/GC-WTB/refs/heads/main/UI/WTB-UI.luau")))();
+if StellarLibrary:LoadAnimation() then
+    StellarLibrary:StartLoad();
+end;
+if StellarLibrary:LoadAnimation() then
+    StellarLibrary:Loaded();
+end;
+
+local Window = StellarLibrary:Window({
+    SubTitle = "战斗勇士辅助 | UI by YUxingchen",
+    Size = UserInputService.TouchEnabled and UDim2.new(0, 500, 0, 350) or UDim2.new(0, 500, 0, 320),
+    TabWidth = 140
+})
+
+local Tab_Info = Window:Tab("信息", "rbxassetid://128891143813807");
+local Tab_Player = Window:Tab("本地玩家", "rbxassetid://10747373176");
+local Tab_Legit = Window:Tab("瞄准辅助", "rbxassetid://10723407389");
+local Tab_Rage = Window:Tab("攻击强化", "rbxassetid://10723415335");
+local Tab_Parry = Window:Tab("自动招架", "rbxassetid://10709782497");
+local Tab_Esp = Window:Tab("视觉辅助", "rbxassetid://10734950309");
+local Tab_Sounds = Window:Tab("声音设置", "rbxassetid://10734984606");
+local Tab_Changer = Window:Tab("外观修改", "rbxassetid://98216376967992");
+local Tab_World = Window:Tab("世界调控", "rbxassetid://128891143813807");
+local Tab_Misc = Window:Tab("杂项工具", "rbxassetid://10723407389");
+
+local vars = {
+    Device = UserInputService.TouchEnabled and "Phone" or (UserInputService.KeyboardEnabled and "PC" or "Gamepad"),
+    WalkSpeed = 40,
+    JumpPowerEnabled = false,
+    JumpPower = 120,
+    FlySpeed = 50,
+    Fov = 70,
+    NoFallDamage = false,
+    AntiCheatBypassed = false,
+    ParryKey = Enum.KeyCode.F,
+    ParryEnabled = false,
+    ParryEquip = false,
+    ParryDebug = false,
+    HitboxEnabled = false,
+    HitboxSize = 2.5,
+    HitboxT = 0.8,
+    HitboxColor = Color3.fromRGB(139,0,255),
+}
+local parrySettings = { Range = 13, Prediction = 4, Chance = 100 }
+local conns = { ParryCheck = nil, HealthChanged = nil, CharactersRemoved = nil, WalkSpeed = nil, Fly = nil }
+local parryTargets = {}
+local editedWeapons = {}
+local wSettings = { Color = Color3.fromRGB(100, 100, 100), Material = Enum.Material.Neon }
+local espS = { Enabled = false, Name = false, Box = false, Tracers = false, Health = false, HealthBar = false, Distance = false, Highlight = false, Color = Color3.fromRGB(255, 0, 161) }
+local ABSettings = { Enabled = false, Smoothing = 5, WallCheck = false, AimBotPart = "Head", Prediction = false, PredictionValue = 0 }
+
+local function sendNotify(title, content, duration)
+    StellarLibrary:Notify(title .. " | " .. content, duration or 3)
+end
+local function keyPress(key)
+    VirtualInputManager:SendKeyEvent(true, key, false, game)
+    task.wait()
+    VirtualInputManager:SendKeyEvent(false, key, false, game)
+end
+local function findTool(oChar)
+    local charTool = oChar:FindFirstChildWhichIsA("Tool")
+    if charTool and charTool:FindFirstChild("Hitboxes") then return charTool, true end
+    local itemsA = oChar:FindFirstChild("ItemsAttached")
+    if not itemsA then return end
+    local model = itemsA:FindFirstChildWhichIsA("Model")
+    if not model then return end
+    return model:FindFirstChildWhichIsA("ObjectValue").Value, false
+end
+local function bypassAnticheat()
+    vars.AntiCheatBypassed = true
+    local success = pcall(function()
+        local fw = require(ReplicatedStorage.Framework.Nevermore);
+        hookfunction(fw("AntiCheatHandler").punish, function() return end)
+    end)
+    sendNotify("防作弊", success and "绕过成功" or "绕过失败", 3)
+end
+
+Tab_Parry:Seperator("自动招架设置")
+local ParryToggle = Tab_Parry:Toggle("自动招架", {"开启", "关闭"}, "开启后自动检测敌方攻击并触发F键招架", function(selected)
+    local isEnabled = selected == 1
+    vars.ParryEnabled = isEnabled
+    if isEnabled then
+        if conns.ParryCheck then conns.ParryCheck:Disconnect() end
+        local function deleteParryFromTable(oChar)
+            if parryTargets[oChar] then
+                if typeof(parryTargets[oChar]) == "RBXScriptConnection" then
+                    parryTargets[oChar]:Disconnect()
+                end
+                parryTargets[oChar] = nil
+            end
+        end
+        local function findOthersInRadius()
+            for _, oChar in pairs(charsFolder:GetChildren()) do
+                if oChar.Name ~= char.Name and oChar:FindFirstChild("HumanoidRootPart") then
+                    local mag = (oChar.HumanoidRootPart.Position - hrp.Position).Magnitude
+                    if mag <= 50 and mag > 0 and not parryTargets[oChar] then
+                        parryTargets[oChar] = false
+                    elseif mag > 50 and parryTargets[oChar] then
+                        deleteParryFromTable(oChar)
+                    end
+                end
+            end
+        end
+        local function CreateOffsetPart(oChar)
+            local oHrp = oChar.HumanoidRootPart
+            local moveDir = oChar.Humanoid.MoveDirection.Unit
+            return moveDir.Magnitude == 0 and oHrp.Position or oHrp.Position + (moveDir * parrySettings.Prediction)
+        end
+        local function Parry(oChar)
+            if string.match(oChar.Name, "Inf3r") then
+                sendNotify("提示", "无法招架作者角色", 3)
+                return
+            end
+            if math.random(0,100) > parrySettings.Chance then return end
+            local offset = CreateOffsetPart(oChar)
+            local mag = (offset - hrp.Position).Magnitude
+            if mag <= parrySettings.Range then
+                if vars.ParryEquip then
+                    local myTool, equipped = findTool(char)
+                    if not equipped then hum:EquipTool(myTool) end
+                end
+                keyPress(vars.ParryKey)
+                sendNotify("招架成功", "检测到敌方攻击并自动招架", 2)
+            end
+        end
+        conns.ParryCheck = RunService.RenderStepped:Connect(function()
+            findOthersInRadius()
+            for oChar, state in pairs(parryTargets) do
+                if state == false then
+                    parryTargets[oChar] = true
+                    local tool = findTool(oChar)
+                    if tool then
+                        parryTargets[oChar] = tool.DescendantAdded:Connect(function()
+                            Parry(oChar)
+                        end)
+                    else
+                        deleteParryFromTable(oChar)
+                    end
+                end
+            end
+        end)
+        sendNotify("自动招架", "功能已开启，检测范围：" .. parrySettings.Range .. " studs", 3)
+    else
+        if conns.ParryCheck then
+            conns.ParryCheck:Disconnect()
+            conns.ParryCheck = nil
+        end
+        for oChar in pairs(parryTargets) do
+            if typeof(parryTargets[oChar]) == "RBXScriptConnection" then
+                parryTargets[oChar]:Disconnect()
+            end
+            parryTargets[oChar] = nil
+        end
+        sendNotify("自动招架", "功能已关闭", 3)
+    end
+end)
+
+Tab_Parry:Slider("招架概率", 0, 100, parrySettings.Chance, function(value)
+    parrySettings.Chance = value
+    sendNotify("设置更新", "招架概率：" .. value .. "%", 2)
+end)
+
+Tab_Parry:Slider("触发距离", 1, 50, parrySettings.Range, function(value)
+    parrySettings.Range = value
+    sendNotify("设置更新", "招架触发距离：" .. value .. " studs", 2)
+end)
+
+Tab_Parry:Slider("移动预判", 0, 20, parrySettings.Prediction, function(value)
+    parrySettings.Prediction = value
+    sendNotify("设置更新", "敌方移动预判：" .. value, 2)
+end)
+
+Tab_Parry:Toggle("自动装备武器", {"开启", "关闭"}, "招架时自动装备手中武器", function(selected)
+    vars.ParryEquip = selected == 1
+    sendNotify("设置更新", "自动装备武器：" .. (vars.ParryEquip and "开启" or "关闭"), 2)
+end)
+
+Tab_Player:Seperator("移动与跳跃")
+Tab_Player:Slider("步行速度", 1, 500, vars.WalkSpeed, function(value)
+    vars.WalkSpeed = value
+    if conns.WalkSpeed then conns.WalkSpeed:Disconnect() end
+    local function isMoving()
+        local dir = Vector3.zero
+        if UserInputService:IsKeyDown(Enum.KeyCode.W) then dir += hrp.CFrame.LookVector end
+        if UserInputService:IsKeyDown(Enum.KeyCode.S) then dir -= hrp.CFrame.LookVector end
+        if UserInputService:IsKeyDown(Enum.KeyCode.A) then dir -= hrp.CFrame.RightVector end
+        if UserInputService:IsKeyDown(Enum.KeyCode.D) then dir += hrp.CFrame.RightVector end
+        return dir
+    end
+    conns.WalkSpeed = RunService.RenderStepped:Connect(function(dt)
+        local dir = isMoving()
+        if dir.Magnitude > 0 then
+            hrp.CFrame = hrp.CFrame + dir.Unit * vars.WalkSpeed * dt
+        end
+    end)
+    sendNotify("设置更新", "步行速度：" .. value, 2)
+end)
+
+Tab_Player:Toggle("飞行模式", {"开启", "关闭"}, "WASD控制方向，空格上升，C下降", function(selected)
+    local isEnabled = selected == 1
+    if isEnabled then
+        Workspace.Gravity = 0
+        if conns.Fly then conns.Fly:Disconnect() end
+        conns.Fly = RunService.Heartbeat:Connect(function(dt)
+            local dir = Vector3.zero
+            local cam = Workspace.CurrentCamera
+            local camLook = cam.CFrame.LookVector
+            local camRight = cam.CFrame.RightVector
+            if UserInputService:IsKeyDown(Enum.KeyCode.W) then dir += camLook end
+            if UserInputService:IsKeyDown(Enum.KeyCode.S) then dir -= camLook end
+            if UserInputService:IsKeyDown(Enum.KeyCode.A) then dir -= camRight end
+            if UserInputService:IsKeyDown(Enum.KeyCode.D) then dir += camRight end
+            if UserInputService:IsKeyDown(Enum.KeyCode.Space) then dir += Vector3.yAxis end
+            if UserInputService:IsKeyDown(Enum.KeyCode.C) then dir -= Vector3.yAxis end
+            hrp.AssemblyLinearVelocity = dir.Unit * vars.FlySpeed
+        end)
+        sendNotify("飞行模式", "已开启，速度：" .. vars.FlySpeed, 3)
+    else
+        Workspace.Gravity = currGravity
+        if conns.Fly then
+            conns.Fly:Disconnect()
+            conns.Fly = nil
+        end
+        sendNotify("飞行模式", "已关闭", 3)
+    end
+end)
+
+Tab_Player:Toggle("无坠落伤害", {"开启", "关闭"}, "防止从高处坠落受伤", function(selected)
+    vars.NoFallDamage = selected == 1
+    if vars.NoFallDamage and not vars.AntiCheatBypassed then
+        bypassAnticheat()
+    end
+    local hook = hookmetamethod(game, "__namecall", function(self, ...)
+        if not checkcaller() and getnamecallmethod() == "FireServer" and vars.NoFallDamage and self.Name == "TakeFallDamage" then
+            return
+        end
+        return hook(self, ...)
+    end)
+    sendNotify("设置更新", "无坠落伤害：" .. (vars.NoFallDamage and "开启" or "关闭"), 2)
+end)
+
+Tab_Esp:Seperator("视觉辅助设置")
+Tab_Esp:Toggle("ESP总开关", {"开启", "关闭"}, "显示敌方名称、方框、血条等信息", function(selected)
+    espS.Enabled = selected == 1
+    if espS.Enabled then
+        local ESPHolder = player.PlayerGui:FindFirstChild("EspHolder") or Instance.new("Folder", player.PlayerGui)
+        ESPHolder.Name = "EspHolder"
+        sendNotify("视觉辅助", "ESP已开启，显示敌方信息", 3)
+    else
+        local ESPHolder = player.PlayerGui:FindFirstChild("EspHolder")
+        if ESPHolder then ESPHolder:Destroy() end
+        sendNotify("视觉辅助", "ESP已关闭", 3)
+    end
+end)
+
+Tab_Esp:Toggle("显示名称", {"开启", "关闭"}, "显示敌方玩家名称", function(selected)
+    espS.Name = selected == 1
+    sendNotify("设置更新", "显示敌方名称：" .. (espS.Name and "开启" or "关闭"), 2)
+end)
+Tab_Esp:Toggle("显示方框", {"开启", "关闭"}, "绘制敌方角色方框", function(selected)
+    espS.Box = selected == 1
+    sendNotify("设置更新", "显示敌方方框：" .. (espS.Box and "开启" or "关闭"), 2)
+end)
+Tab_Esp:Toggle("显示血条", {"开启", "关闭"}, "显示敌方剩余血量", function(selected)
+    espS.HealthBar = selected == 1
+    sendNotify("设置更新", "显示敌方血条：" .. (espS.HealthBar and "开启" or "关闭"), 2)
+end)
+
+Tab_Misc:Seperator("实用工具")
+Tab_Misc:Button("复制QQ群", function()
+    setclipboard("705257336")
+    sendNotify("操作成功", "QQ群号已复制到剪贴板", 3)
+end)
+
+Tab_Misc:Button("加载指令工具", function()
+    pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+        sendNotify("工具加载", "Infinity Yield已启动", 3)
+    end)
+end)
+
+player.CharacterAdded:Connect(function(newChar)
+    char = newChar
+    hrp = char:WaitForChild("HumanoidRootPart")
+    hum = char:FindFirstChildWhichIsA("Humanoid")
+    if vars.WalkSpeed ~= 40 and conns.WalkSpeed then
+        conns.WalkSpeed:Disconnect()
+        local function isMoving()
+            local dir = Vector3.zero
+            if UserInputService:IsKeyDown(Enum.KeyCode.W) then dir += hrp.CFrame.LookVector end
+            if UserInputService:IsKeyDown(Enum.KeyCode.S) then dir -= hrp.CFrame.LookVector end
+            if UserInputService:IsKeyDown(Enum.KeyCode.A) then dir -= hrp.CFrame.RightVector end
+            if UserInputService:IsKeyDown(Enum.KeyCode.D) then dir += hrp.CFrame.RightVector end
+            return dir
+        end
+        conns.WalkSpeed = RunService.RenderStepped:Connect(function(dt)
+            local dir = isMoving()
+            if dir.Magnitude > 0 then
+                hrp.CFrame = hrp.CFrame + dir.Unit * vars.WalkSpeed * dt
+            end
+        end)
+    end
+    sendNotify("角色重生", "已恢复辅助功能配置", 2)
+end)
+
+Tab_Info:Seperator("游戏信息")
+local GameTimeLabel = Tab_Info:Label("游戏时间：0时0分0秒")
+local FpsLabel = Tab_Info:Label("帧率：0 FPS")
+local PingLabel = Tab_Info:Label("延迟：0 ms")
+
+spawn(function()
+    while task.wait(1) do
+        pcall(function()
+            local gameTime = math.floor(Workspace.DistributedGameTime + 0.5)
+            local hour = math.floor(gameTime / 3600) % 24
+            local minute = math.floor(gameTime / 60) % 60
+            local second = gameTime % 60
+            GameTimeLabel:Set("游戏时间：" .. hour .. "时" .. minute .. "分" .. second .. "秒")
+            
+            local fps = math.floor(Workspace:GetRealPhysicsFPS())
+            FpsLabel:Set("帧率：" .. fps .. " FPS")
+            
+            local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
+            PingLabel:Set("延迟：" .. ping)
+        end)
+    end
+end)
+
+sendNotify("加载完成", "战斗勇士辅助已适配WTB-UI，点击标签页使用功能", 5)
