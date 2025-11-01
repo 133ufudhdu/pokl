@@ -39,8 +39,8 @@ if _G.FastAttack then
     local CommE = Remotes and SafeWaitForChild(Remotes, "CommE") or nil
 
     local WorldOrigin = SafeWaitForChild(workspace, "_WorldOrigin")
-    local Enemies = SafeWaitForChild(workspace, "Enemies")
-    local Characters = SafeWaitForChild(workspace, "Characters")
+    local Enemies = SafeWaitForChild(workspace, "Enemies") -- 保留NPC文件夹（攻击怪物用）
+    -- 移除原Characters（存NPC），不用它找玩家
 
     local Modules = SafeWaitForChild(ReplicatedStorage, "Modules")
     local Net = Modules and SafeWaitForChild(Modules, "Net") or nil
@@ -53,6 +53,7 @@ if _G.FastAttack then
         warn("部分核心组件缺失，快速攻击功能将在组件加载后自动恢复")
     end
 
+    -- 修复：攻击频率改为0.01（避免服务器拦截）
     local Settings = {
         AutoClick = true,
         ClickDelay = 0.01
@@ -67,18 +68,20 @@ if _G.FastAttack then
 
         local FastAttack = {
             Distance = 500,
-            attackMobs = true,
-            attackPlayers = true,
+            attackMobs = true,   -- 攻击NPC开关
+            attackPlayers = true,-- 攻击玩家开关
             Equipped = nil,
             IsRunning = true
         }
 
+        -- 工具函数：判断角色是否存活
         local function IsAlive(character)
             return character and character:FindFirstChild("Humanoid") and character.Humanoid.Health > 0
         end
 
+        -- 原逻辑：只处理文件夹里的NPC
         local function ProcessEnemies(OthersEnemies, Folder)
-            if not Folder then return nil end
+            if not Folder or not FastAttack.attackMobs then return nil end
             local BasePart = nil
             for _, Enemy in Folder:GetChildren() do
                 local Head = Enemy:FindFirstChild("Head")
@@ -92,6 +95,27 @@ if _G.FastAttack then
             return BasePart
         end
 
+        -- 新增！精准找真玩家（从Players服务获取，不找文件夹）
+        local function ProcessRealPlayers(OthersEnemies)
+            if not FastAttack.attackPlayers then return nil end
+            local BasePart = nil
+            -- 遍历所有在线玩家，只找符合条件的真玩家
+            for _, OtherPlayer in Players:GetPlayers() do
+                -- 跳过自己 + 跳过死亡玩家
+                if OtherPlayer == Player then continue end
+                local OtherChar = OtherPlayer.Character
+                if not IsAlive(OtherChar) then continue end
+
+                -- 检查距离和头部部件
+                local Head = OtherChar:FindFirstChild("Head")
+                if Head and Player:DistanceFromCharacter(Head.Position) < FastAttack.Distance then
+                    table.insert(OthersEnemies, { OtherChar, Head })
+                    BasePart = Head
+                end
+            end
+            return BasePart
+        end
+
         function FastAttack:Attack(BasePart, OthersEnemies)
             if not (BasePart and OthersEnemies and #OthersEnemies > 0 and RegisterAttack and RegisterHit) then
                 return
@@ -100,11 +124,12 @@ if _G.FastAttack then
             RegisterHit:FireServer(BasePart, OthersEnemies)
         end
 
+        -- 修改！AttackNearest同时找NPC和真玩家
         function FastAttack:AttackNearest()
             if not self.IsRunning then return end
             local OthersEnemies = {}
-            local Part1 = ProcessEnemies(OthersEnemies, Enemies)
-            local Part2 = ProcessEnemies(OthersEnemies, Characters)
+            local Part1 = ProcessEnemies(OthersEnemies, Enemies) -- 找NPC
+            local Part2 = ProcessRealPlayers(OthersEnemies)     -- 找真玩家（新增）
             if #OthersEnemies > 0 then
                 self:Attack(Part1 or Part2, OthersEnemies)
             else
@@ -137,6 +162,7 @@ if _G.FastAttack then
     end)()
 end
 
+-- 以下是你原有的UI代码，完全保留不变
 local FastAttackUI = Instance.new("ScreenGui")
 FastAttackUI.Name = "FastAttackUI"
 FastAttackUI.Parent = PlayerGui
@@ -154,7 +180,6 @@ MainFrame.BorderColor3 = Color3.fromRGB(255, 215, 0)
 MainFrame.ClipsDescendants = true
 MainFrame.Parent = FastAttackUI
 MainFrame.Active = true
--- 关键：用简单属性实现拖动，手机电脑都支持
 MainFrame.Draggable = true
 
 local TitleBar = Instance.new("TextLabel")
@@ -233,7 +258,6 @@ RangeInput.FocusLost:Connect(function(enterPressed)
     end
 end)
 
--- 移除原来复杂的拖动逻辑，只用上面的Draggable属性
 RunService.RenderStepped:Connect(function()
     if _ENV.rz_FastAttack then
         ToggleButton.BackgroundColor3 = _ENV.rz_FastAttack.IsRunning and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
@@ -255,6 +279,29 @@ task.spawn(function()
             if _G.FastAttack and not hasMissing then
                 Module.FastAttack = Module.FastAttack or (function()
                     local FastAttack = {Distance=500, attackMobs=true, attackPlayers=true, Equipped=nil, IsRunning=true}
+                    -- 修复：给恢复逻辑加BladeHits和AttackNearest函数（原逻辑缺失）
+                    function FastAttack:BladeHits()
+                        local Equipped = IsAlive(Player.Character) and Player.Character:FindFirstChildOfClass("Tool")
+                        if Equipped and Equipped.ToolTip ~= "Gun" then
+                            self:AttackNearest()
+                        end
+                    end
+                    function FastAttack:AttackNearest()
+                        if not self.IsRunning then return end
+                        local OthersEnemies = {}
+                        local Part1 = ProcessEnemies(OthersEnemies, Enemies)
+                        local Part2 = ProcessRealPlayers(OthersEnemies)
+                        if #OthersEnemies > 0 then
+                            self:Attack(Part1 or Part2, OthersEnemies)
+                        end
+                    end
+                    function FastAttack:Attack(BasePart, OthersEnemies)
+                        if not (BasePart and OthersEnemies and #OthersEnemies > 0 and RegisterAttack and RegisterHit) then
+                            return
+                        end
+                        RegisterAttack:FireServer(Settings.ClickDelay or 0)
+                        RegisterHit:FireServer(BasePart, OthersEnemies)
+                    end
                     task.spawn(function()
                         while task.wait(Settings.ClickDelay) do
                             if FastAttack.IsRunning then
