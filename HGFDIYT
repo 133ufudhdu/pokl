@@ -1,1 +1,272 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/133ufudhdu/pokl/refs/heads/main/XBJGAQTW"))()
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local workspace = game:GetService("Workspace")
+
+local Player = Players.LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui", 60)
+if not PlayerGui then warn("获取PlayerGui失败，UI无法创建") return end
+
+_G.FastAttack = _G.FastAttack ~= nil and _G.FastAttack or true
+local _ENV = (getgenv or getrenv or getfenv)()
+
+if _G.FastAttack then
+    local function SafeWaitForChild(parent, childName)
+        local success, result = pcall(function()
+            return parent:WaitForChild(childName, 10)
+        end)
+        if not success or not result then
+            warn("未找到组件: " .. childName)
+        end
+        return result
+    end
+
+    local function WaitChilds(path, ...)
+        local last = path
+        for _, child in {...} do
+            last = last:FindFirstChild(child) or SafeWaitForChild(last, child)
+            if not last then break end
+        end
+        return last
+    end
+
+    local Remotes = SafeWaitForChild(ReplicatedStorage, "Remotes")
+    if not Remotes then warn("核心组件Remotes缺失，快速攻击无法运行") end
+
+    local Validator = Remotes and SafeWaitForChild(Remotes, "Validator") or nil
+    local CommF = Remotes and SafeWaitForChild(Remotes, "CommF_") or nil
+    local CommE = Remotes and SafeWaitForChild(Remotes, "CommE") or nil
+
+    local WorldOrigin = SafeWaitForChild(workspace, "_WorldOrigin")
+    local Enemies = SafeWaitForChild(workspace, "Enemies")
+    local Characters = SafeWaitForChild(workspace, "Characters")
+
+    local Modules = SafeWaitForChild(ReplicatedStorage, "Modules")
+    local Net = Modules and SafeWaitForChild(Modules, "Net") or nil
+    local RegisterAttack = Net and SafeWaitForChild(Net, "RE/RegisterAttack") or nil
+    local RegisterHit = Net and SafeWaitForChild(Net, "RE/RegisterHit") or nil
+
+    local criticalComponents = {Remotes, Net, RegisterAttack, RegisterHit, Enemies}
+    local hasMissing = table.find(criticalComponents, nil) ~= nil
+    if hasMissing then
+        warn("部分核心组件缺失，快速攻击功能将在组件加载后自动恢复")
+    end
+
+    local Settings = {
+        AutoClick = true,
+        ClickDelay = 0.0000000000000000000001
+    }
+
+    local Module = {}
+
+    Module.FastAttack = (function()
+        if _ENV.rz_FastAttack then
+            return _ENV.rz_FastAttack
+        end
+
+        local FastAttack = {
+            Distance = 500,
+            attackMobs = true,
+            attackPlayers = true,
+            Equipped = nil,
+            IsRunning = true
+        }
+
+        local function IsAlive(character)
+            return character and character:FindFirstChild("Humanoid") and character.Humanoid.Health > 0
+        end
+
+        local function ProcessEnemies(OthersEnemies, Folder)
+            if not Folder then return nil end
+            local BasePart = nil
+            for _, Enemy in Folder:GetChildren() do
+                local Head = Enemy:FindFirstChild("Head")
+                if Head and IsAlive(Enemy) and Player:DistanceFromCharacter(Head.Position) < FastAttack.Distance then
+                    if Enemy ~= Player.Character then
+                        table.insert(OthersEnemies, { Enemy, Head })
+                        BasePart = Head
+                    end
+                end
+            end
+            return BasePart
+        end
+
+        function FastAttack:Attack(BasePart, OthersEnemies)
+            if not (BasePart and OthersEnemies and #OthersEnemies > 0 and RegisterAttack and RegisterHit) then
+                return
+            end
+            RegisterAttack:FireServer(Settings.ClickDelay or 0)
+            RegisterHit:FireServer(BasePart, OthersEnemies)
+        end
+
+        function FastAttack:AttackNearest()
+            if not self.IsRunning then return end
+            local OthersEnemies = {}
+            local Part1 = ProcessEnemies(OthersEnemies, Enemies)
+            local Part2 = ProcessEnemies(OthersEnemies, Characters)
+            if #OthersEnemies > 0 then
+                self:Attack(Part1 or Part2, OthersEnemies)
+            else
+                task.wait(0)
+            end
+        end
+
+        function FastAttack:BladeHits()
+            if not self.IsRunning then return end
+            local Equipped = IsAlive(Player.Character) and Player.Character:FindFirstChildOfClass("Tool")
+            if Equipped and Equipped.ToolTip ~= "Gun" then
+                self:AttackNearest()
+            else
+                task.wait(0)
+            end
+        end
+
+        task.spawn(function()
+            while task.wait(Settings.ClickDelay) do
+                if Settings.AutoClick and FastAttack.IsRunning and not hasMissing then
+                    FastAttack:BladeHits()
+                else
+                    task.wait(0.1)
+                end
+            end
+        end)
+
+        _ENV.rz_FastAttack = FastAttack
+        return FastAttack
+    end)()
+end
+
+local FastAttackUI = Instance.new("ScreenGui")
+FastAttackUI.Name = "FastAttackUI"
+FastAttackUI.Parent = PlayerGui
+FastAttackUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+FastAttackUI.DisplayOrder = 100
+FastAttackUI.ResetOnSpawn = false
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 158, 0, 95)
+MainFrame.Position = UDim2.new(0.7, 0, 0.1, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MainFrame.BackgroundTransparency = 0.4
+MainFrame.BorderColor3 = Color3.fromRGB(255, 215, 0)
+MainFrame.ClipsDescendants = true
+MainFrame.Parent = FastAttackUI
+MainFrame.Active = true
+-- 关键：用简单属性实现拖动，手机电脑都支持
+MainFrame.Draggable = true
+
+local TitleBar = Instance.new("TextLabel")
+TitleBar.Name = "TitleBar"
+TitleBar.Size = UDim2.new(1, 0, 0, 18)
+TitleBar.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
+TitleBar.Text = "快攻 [拖]"
+TitleBar.TextColor3 = Color3.fromRGB(0, 0, 0)
+TitleBar.TextScaled = true
+TitleBar.TextSize = 10
+TitleBar.Parent = MainFrame
+TitleBar.Selectable = false
+
+local ToggleButton = Instance.new("TextButton")
+ToggleButton.Name = "ToggleButton"
+ToggleButton.Size = UDim2.new(0.4, 0, 0, 22)
+ToggleButton.Position = UDim2.new(0.05, 0, 0, 22)
+ToggleButton.BackgroundColor3 = _G.FastAttack and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+ToggleButton.Text = _G.FastAttack and "开" or "关"
+ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleButton.TextScaled = true
+ToggleButton.TextSize = 9
+ToggleButton.AutoButtonColor = true
+ToggleButton.Parent = MainFrame
+
+ToggleButton.MouseButton1Click:Connect(function()
+    _G.FastAttack = not _G.FastAttack
+    if _ENV.rz_FastAttack then
+        _ENV.rz_FastAttack.IsRunning = _G.FastAttack
+    end
+    ToggleButton.BackgroundColor3 = _G.FastAttack and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+    ToggleButton.Text = _G.FastAttack and "开" or "关"
+end)
+
+local RangeLabel = Instance.new("TextLabel")
+RangeLabel.Name = "RangeLabel"
+RangeLabel.Size = UDim2.new(0.3, 0, 0, 18)
+RangeLabel.Position = UDim2.new(0.05, 0, 0, 48)
+RangeLabel.BackgroundTransparency = 1
+RangeLabel.Text = "范围:"
+RangeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+RangeLabel.TextScaled = true
+RangeLabel.TextSize = 8
+RangeLabel.Parent = MainFrame
+
+local RangeInput = Instance.new("TextBox")
+RangeInput.Name = "RangeInput"
+RangeInput.Size = UDim2.new(0.3, 0, 0, 18)
+RangeInput.Position = UDim2.new(0.4, 0, 0, 48)
+RangeInput.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+RangeInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+RangeInput.PlaceholderText = "数"
+RangeInput.TextScaled = true
+RangeInput.TextSize = 8
+RangeInput.ClearTextOnFocus = false
+RangeInput.Text = _ENV.rz_FastAttack and tostring(_ENV.rz_FastAttack.Distance) or "500"
+RangeInput.Parent = MainFrame
+
+local UnitLabel = Instance.new("TextLabel")
+UnitLabel.Name = "UnitLabel"
+UnitLabel.Size = UDim2.new(0.15, 0, 0, 18)
+UnitLabel.Position = UDim2.new(0.75, 0, 0, 48)
+UnitLabel.BackgroundTransparency = 1
+UnitLabel.Text = "单位"
+UnitLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+UnitLabel.TextScaled = true
+UnitLabel.TextSize = 8
+UnitLabel.Parent = MainFrame
+
+RangeInput.FocusLost:Connect(function(enterPressed)
+    if enterPressed and _ENV.rz_FastAttack then
+        local inputNum = tonumber(RangeInput.Text)
+        local newRange = inputNum and math.floor(math.clamp(inputNum, 1, 1000)) or 10
+        RangeInput.Text = tostring(newRange)
+        _ENV.rz_FastAttack.Distance = newRange
+    end
+end)
+
+-- 移除原来复杂的拖动逻辑，只用上面的Draggable属性
+RunService.RenderStepped:Connect(function()
+    if _ENV.rz_FastAttack then
+        ToggleButton.BackgroundColor3 = _ENV.rz_FastAttack.IsRunning and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+        ToggleButton.Text = _ENV.rz_FastAttack.IsRunning and "开" or "关"
+        if not RangeInput:IsFocused() then
+            RangeInput.Text = tostring(_ENV.rz_FastAttack.Distance)
+        end
+    end
+end)
+
+task.spawn(function()
+    task.wait(1)
+    if _ENV.rz_FastAttack then
+        print("✅ 快速攻击功能已正常启动，拖动悬浮窗即可移动")
+    else
+        warn("⚠️ 快速攻击组件未完全加载，将持续尝试恢复")
+        while not _ENV.rz_FastAttack do
+            task.wait(3)
+            if _G.FastAttack and not hasMissing then
+                Module.FastAttack = Module.FastAttack or (function()
+                    local FastAttack = {Distance=500, attackMobs=true, attackPlayers=true, Equipped=nil, IsRunning=true}
+                    task.spawn(function()
+                        while task.wait(Settings.ClickDelay) do
+                            if FastAttack.IsRunning then
+                                FastAttack:BladeHits()
+                            end
+                        end
+                    end)
+                    _ENV.rz_FastAttack = FastAttack
+                    print("✅ 快速攻击功能已恢复启动")
+                    return FastAttack
+                end)()
+            end
+        end
+    end
+end)
