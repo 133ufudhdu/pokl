@@ -56,7 +56,7 @@ if _G.FastAttack then
     -- 修复：攻击频率改为0.01（避免服务器拦截）
     local Settings = {
         AutoClick = true,
-        ClickDelay = 0.0000000000001
+        ClickDelay = 0.01
     }
 
     local Module = {}
