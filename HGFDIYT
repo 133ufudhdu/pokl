@@ -84,11 +84,14 @@ if _G.FastAttack then
             if not Folder or not FastAttack.attackMobs then return nil end
             local BasePart = nil
             for _, Enemy in Folder:GetChildren() do
-                local Head = Enemy:FindFirstChild("Head")
-                if Head and IsAlive(Enemy) and Player:DistanceFromCharacter(Head.Position) < FastAttack.Distance then
+                -- 替换：Head → HumanoidRootPart
+                local HRP = Enemy:FindFirstChild("HumanoidRootPart")
+                -- 替换：Head.Position → HRP.Position
+                if HRP and IsAlive(Enemy) and Player:DistanceFromCharacter(HRP.Position) < FastAttack.Distance then
                     if Enemy ~= Player.Character then
-                        table.insert(OthersEnemies, { Enemy, Head })
-                        BasePart = Head
+                        -- 替换：存储HRP而非Head
+                        table.insert(OthersEnemies, { Enemy, HRP })
+                        BasePart = HRP
                     end
                 end
             end
@@ -106,11 +109,13 @@ if _G.FastAttack then
                 local OtherChar = OtherPlayer.Character
                 if not IsAlive(OtherChar) then continue end
 
-                -- 检查距离和头部部件
-                local Head = OtherChar:FindFirstChild("Head")
-                if Head and Player:DistanceFromCharacter(Head.Position) < FastAttack.Distance then
-                    table.insert(OthersEnemies, { OtherChar, Head })
-                    BasePart = Head
+                -- 替换：Head → HumanoidRootPart
+                local HRP = OtherChar:FindFirstChild("HumanoidRootPart")
+                -- 替换：Head.Position → HRP.Position
+                if HRP and Player:DistanceFromCharacter(HRP.Position) < FastAttack.Distance then
+                    -- 替换：存储HRP而非Head
+                    table.insert(OthersEnemies, { OtherChar, HRP })
+                    BasePart = HRP
                 end
             end
             return BasePart
@@ -280,6 +285,9 @@ task.spawn(function()
                 Module.FastAttack = Module.FastAttack or (function()
                     local FastAttack = {Distance=500, attackMobs=true, attackPlayers=true, Equipped=nil, IsRunning=true}
                     -- 修复：给恢复逻辑加BladeHits和AttackNearest函数（原逻辑缺失）
+                    local function IsAlive(character)
+                        return character and character:FindFirstChild("Humanoid") and character.Humanoid.Health > 0
+                    end
                     function FastAttack:BladeHits()
                         local Equipped = IsAlive(Player.Character) and Player.Character:FindFirstChildOfClass("Tool")
                         if Equipped and Equipped.ToolTip ~= "Gun" then
@@ -289,6 +297,36 @@ task.spawn(function()
                     function FastAttack:AttackNearest()
                         if not self.IsRunning then return end
                         local OthersEnemies = {}
+                        -- 恢复逻辑中同步替换Head为HumanoidRootPart
+                        local function ProcessEnemies(OthersEnemies, Folder)
+                            if not Folder or not FastAttack.attackMobs then return nil end
+                            local BasePart = nil
+                            for _, Enemy in Folder:GetChildren() do
+                                local HRP = Enemy:FindFirstChild("HumanoidRootPart")
+                                if HRP and IsAlive(Enemy) and Player:DistanceFromCharacter(HRP.Position) < FastAttack.Distance then
+                                    if Enemy ~= Player.Character then
+                                        table.insert(OthersEnemies, { Enemy, HRP })
+                                        BasePart = HRP
+                                    end
+                                end
+                            end
+                            return BasePart
+                        end
+                        local function ProcessRealPlayers(OthersEnemies)
+                            if not FastAttack.attackPlayers then return nil end
+                            local BasePart = nil
+                            for _, OtherPlayer in Players:GetPlayers() do
+                                if OtherPlayer == Player then continue end
+                                local OtherChar = OtherPlayer.Character
+                                if not IsAlive(OtherChar) then continue end
+                                local HRP = OtherChar:FindFirstChild("HumanoidRootPart")
+                                if HRP and Player:DistanceFromCharacter(HRP.Position) < FastAttack.Distance then
+                                    table.insert(OthersEnemies, { OtherChar, HRP })
+                                    BasePart = HRP
+                                end
+                            end
+                            return BasePart
+                        end
                         local Part1 = ProcessEnemies(OthersEnemies, Enemies)
                         local Part2 = ProcessRealPlayers(OthersEnemies)
                         if #OthersEnemies > 0 then
