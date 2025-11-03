@@ -79,43 +79,49 @@ if _G.FastAttack then
             return character and character:FindFirstChild("Humanoid") and character.Humanoid.Health > 0
         end
 
-        -- 原逻辑：只处理文件夹里的NPC
+        -- 原逻辑：只处理文件夹里的NPC（新增Head/Torso/HRP多重判定）
         local function ProcessEnemies(OthersEnemies, Folder)
             if not Folder or not FastAttack.attackMobs then return nil end
             local BasePart = nil
             for _, Enemy in Folder:GetChildren() do
-                -- 替换：Head → HumanoidRootPart
-                local HRP = Enemy:FindFirstChild("HumanoidRootPart")
-                -- 替换：Head.Position → HRP.Position
-                if HRP and IsAlive(Enemy) and Player:DistanceFromCharacter(HRP.Position) < FastAttack.Distance then
-                    if Enemy ~= Player.Character then
-                        -- 替换：存储HRP而非Head
-                        table.insert(OthersEnemies, { Enemy, HRP })
-                        BasePart = HRP
-                    end
+                -- 跳过死亡角色或自身
+                if not IsAlive(Enemy) or Enemy == Player.Character then continue end
+                
+                -- 多重部件判定：优先用Head，其次Torso/UpperTorso，最后HRP（哪个存在用哪个）
+                local TargetPart = Enemy:FindFirstChild("Head")
+                    or Enemy:FindFirstChild("Torso") -- 兼容默认躯干
+                    or Enemy:FindFirstChild("UpperTorso") -- 兼容细分躯干（如R15模型）
+                    or Enemy:FindFirstChild("HumanoidRootPart") -- 最后用核心判定部件
+
+                -- 满足距离条件则加入攻击列表
+                if TargetPart and Player:DistanceFromCharacter(TargetPart.Position) < FastAttack.Distance then
+                    table.insert(OthersEnemies, { Enemy, TargetPart })
+                    BasePart = TargetPart -- 记录当前可用的判定部件
                 end
             end
             return BasePart
         end
 
-        -- 新增！精准找真玩家（从Players服务获取，不找文件夹）
+        -- 新增！精准找真玩家（从Players服务获取，不找文件夹）（新增多部件判定）
         local function ProcessRealPlayers(OthersEnemies)
             if not FastAttack.attackPlayers then return nil end
             local BasePart = nil
-            -- 遍历所有在线玩家，只找符合条件的真玩家
             for _, OtherPlayer in Players:GetPlayers() do
-                -- 跳过自己 + 跳过死亡玩家
+                -- 跳过自身或死亡玩家
                 if OtherPlayer == Player then continue end
                 local OtherChar = OtherPlayer.Character
                 if not IsAlive(OtherChar) then continue end
 
-                -- 替换：Head → HumanoidRootPart
-                local HRP = OtherChar:FindFirstChild("HumanoidRootPart")
-                -- 替换：Head.Position → HRP.Position
-                if HRP and Player:DistanceFromCharacter(HRP.Position) < FastAttack.Distance then
-                    -- 替换：存储HRP而非Head
-                    table.insert(OthersEnemies, { OtherChar, HRP })
-                    BasePart = HRP
+                -- 同上：多重部件判定（Head→Torso→UpperTorso→HRP）
+                local TargetPart = OtherChar:FindFirstChild("Head")
+                    or OtherChar:FindFirstChild("Torso")
+                    or OtherChar:FindFirstChild("UpperTorso")
+                    or OtherChar:FindFirstChild("HumanoidRootPart")
+
+                -- 满足距离条件则加入攻击列表
+                if TargetPart and Player:DistanceFromCharacter(TargetPart.Position) < FastAttack.Distance then
+                    table.insert(OthersEnemies, { OtherChar, TargetPart })
+                    BasePart = TargetPart
                 end
             end
             return BasePart
@@ -134,7 +140,7 @@ if _G.FastAttack then
             if not self.IsRunning then return end
             local OthersEnemies = {}
             local Part1 = ProcessEnemies(OthersEnemies, Enemies) -- 找NPC
-            local Part2 = ProcessRealPlayers(OthersEnemies)     -- 找真玩家（新增）
+            local Part2 = ProcessRealPlayers(OthersEnemies)     -- 找真玩家
             if #OthersEnemies > 0 then
                 self:Attack(Part1 or Part2, OthersEnemies)
             else
@@ -152,6 +158,7 @@ if _G.FastAttack then
             end
         end
 
+        -- 自动攻击循环
         task.spawn(function()
             while task.wait(Settings.ClickDelay) do
                 if Settings.AutoClick and FastAttack.IsRunning and not hasMissing then
@@ -167,7 +174,7 @@ if _G.FastAttack then
     end)()
 end
 
--- 以下是你原有的UI代码，完全保留不变
+-- 以下是原UI代码，完全保留不变
 local FastAttackUI = Instance.new("ScreenGui")
 FastAttackUI.Name = "FastAttackUI"
 FastAttackUI.Parent = PlayerGui
@@ -273,18 +280,18 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
+-- 组件加载检测循环
 task.spawn(function()
     task.wait(1)
     if _ENV.rz_FastAttack then
         print("✅ 快速攻击功能已正常启动，拖动悬浮窗即可移动")
     else
-        warn("⚠️ 快速攻击组件未完全加载，将持续尝试恢复")
+        warn("⚠️ 快速攻击组件未完全加载，持续尝试恢复...")
         while not _ENV.rz_FastAttack do
             task.wait(3)
             if _G.FastAttack and not hasMissing then
                 Module.FastAttack = Module.FastAttack or (function()
                     local FastAttack = {Distance=500, attackMobs=true, attackPlayers=true, Equipped=nil, IsRunning=true}
-                    -- 修复：给恢复逻辑加BladeHits和AttackNearest函数（原逻辑缺失）
                     local function IsAlive(character)
                         return character and character:FindFirstChild("Humanoid") and character.Humanoid.Health > 0
                     end
@@ -297,17 +304,16 @@ task.spawn(function()
                     function FastAttack:AttackNearest()
                         if not self.IsRunning then return end
                         local OthersEnemies = {}
-                        -- 恢复逻辑中同步替换Head为HumanoidRootPart
+                        -- 恢复逻辑中同步多部件判定
                         local function ProcessEnemies(OthersEnemies, Folder)
                             if not Folder or not FastAttack.attackMobs then return nil end
                             local BasePart = nil
                             for _, Enemy in Folder:GetChildren() do
-                                local HRP = Enemy:FindFirstChild("HumanoidRootPart")
-                                if HRP and IsAlive(Enemy) and Player:DistanceFromCharacter(HRP.Position) < FastAttack.Distance then
-                                    if Enemy ~= Player.Character then
-                                        table.insert(OthersEnemies, { Enemy, HRP })
-                                        BasePart = HRP
-                                    end
+                                if not IsAlive(Enemy) or Enemy == Player.Character then continue end
+                                local TargetPart = Enemy:FindFirstChild("Head") or Enemy:FindFirstChild("Torso") or Enemy:FindFirstChild("UpperTorso") or Enemy:FindFirstChild("HumanoidRootPart")
+                                if TargetPart and Player:DistanceFromCharacter(TargetPart.Position) < FastAttack.Distance then
+                                    table.insert(OthersEnemies, { Enemy, TargetPart })
+                                    BasePart = TargetPart
                                 end
                             end
                             return BasePart
@@ -319,10 +325,10 @@ task.spawn(function()
                                 if OtherPlayer == Player then continue end
                                 local OtherChar = OtherPlayer.Character
                                 if not IsAlive(OtherChar) then continue end
-                                local HRP = OtherChar:FindFirstChild("HumanoidRootPart")
-                                if HRP and Player:DistanceFromCharacter(HRP.Position) < FastAttack.Distance then
-                                    table.insert(OthersEnemies, { OtherChar, HRP })
-                                    BasePart = HRP
+                                local TargetPart = OtherChar:FindFirstChild("Head") or OtherChar:FindFirstChild("Torso") or OtherChar:FindFirstChild("UpperTorso") or OtherChar:FindFirstChild("HumanoidRootPart")
+                                if TargetPart and Player:DistanceFromCharacter(TargetPart.Position) < FastAttack.Distance then
+                                    table.insert(OthersEnemies, { OtherChar, TargetPart })
+                                    BasePart = TargetPart
                                 end
                             end
                             return BasePart
